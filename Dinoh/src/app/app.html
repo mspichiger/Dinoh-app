@@ -1,0 +1,135 @@
+<div class="layout">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">🦕</div>
+            <div class="brand-text">
+                <div class="brand-title">DINOH</div>
+                <div class="brand-sub">by ITOT KAU</div>
+            </div>
+        </div>
+
+        <nav class="nav">
+            @for (item of navItems; track item.label) {
+            <a class="nav-item" [class.active]="item.active">
+                <span class="nav-icon">{{ item.icon }}</span>
+                <span class="nav-label">{{ item.label }}</span>
+                @if (item.badge !== null) {
+                <span class="nav-badge">{{ item.badge }}</span>
+                }
+            </a>
+            }
+        </nav>
+
+        <div class="hub-card">
+            <div class="hub-title">🏢 Kaiseraugst Hub</div>
+            <div class="hub-status">Public accessible</div>
+            <div class="hub-sub">No authentication required</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="search">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search for apps, tools or categories..." />
+            </div>
+            <button class="submit-btn">
+                <span>🦕</span> Submit App
+            </button>
+            <button class="icon-btn notif">
+                🔔
+                <span class="dot"></span>
+            </button>
+            <button class="icon-btn">👤</button>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-eyebrow">
+                    <span class="hero-dino">🦕</span>
+                    <span>DIGITAL INNOVATION HUB</span>
+                </div>
+                <h1 class="hero-brand">DINOH</h1>
+                <h2 class="hero-title">Apps ranked by cost / benefit</h2>
+                <p class="hero-desc">
+                    Share your self-made applications and discover innovative tools from other
+                    developers. Container as a Service (CaaS) hosting platform.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">42</div>
+                        <div class="hero-stat-label">Total Apps</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">7</div>
+                        <div class="hero-stat-label">Golden Tier</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">3</div>
+                        <div class="hero-stat-label">Hubs</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">2.4k</div>
+                        <div class="hero-stat-label">Users</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-illustration">🦕</div>
+        </section>
+
+        <section class="stats-grid">
+            @for (s of stats; track s.label) {
+            <div class="stat-card">
+                <div class="stat-head">
+                    <span class="stat-icon">{{ s.icon }}</span>
+                    <span class="stat-delta" [style.color]="s.accent">{{ s.delta }}</span>
+                </div>
+                <div class="stat-label">{{ s.label }}</div>
+                <div class="stat-value">{{ s.value }}</div>
+            </div>
+            }
+        </section>
+
+        <section class="top-rated">
+            <div class="section-head">
+                <h3>⭐ Top Rated</h3>
+                <p>The highest rated apps based on cost/benefit ratio this week</p>
+            </div>
+
+            <div class="cards">
+                @for (app of topRated; track app.name) {
+                <article class="app-card">
+                    <div class="golden-badge">
+                        <div>🏅 GOLDEN TIER</div>
+                        <div class="rank">#{{ app.rank }}</div>
+                    </div>
+                    <div class="app-head">
+                        <div class="app-avatar">{{ app.emoji }}</div>
+                        <div>
+                            <div class="app-name">{{ app.name }}</div>
+                            <div class="app-author">by {{ app.author }}</div>
+                        </div>
+                    </div>
+                    <p class="app-desc">{{ app.description }}</p>
+                    <div class="rating">
+                        <span class="dino-rating">🦕🦕🦕🦕🦕</span>
+                        <span class="rating-value">{{ app.rating.toFixed(1) }}</span>
+                        <span class="rating-reviews">({{ app.reviews }})</span>
+                    </div>
+                    <div class="app-meta">
+                        <span>💲 Value: {{ app.value }}/10</span>
+                        <span>👥 {{ app.users }}</span>
+                    </div>
+                    <div class="tags">
+                        @for (t of app.tags; track t) {
+                        <span class="tag">{{ t }}</span>
+                        }
+                    </div>
+                    <button class="view-btn">View Details ↗</button>
+                </article>
+                }
+            </div>
+        </section>
+    </main>
+</div>
