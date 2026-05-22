@@ -30,6 +30,15 @@ interface StatCard {
 })
 export class App {
     protected readonly title = signal('Dinoh');
+    protected readonly sidebarOpen = signal(false);
+
+    protected toggleSidebar() {
+        this.sidebarOpen.update(v => !v);
+    }
+
+    protected closeSidebar() {
+        this.sidebarOpen.set(false);
+    }
 
     protected readonly navItems = [
         { label: 'Home', icon: '🏠', badge: null as number | null, active: true },

@@ -1,5 +1,6 @@
 <div class="layout">
-    <aside class="sidebar">
+    <button class="sidebar-backdrop" [class.open]="sidebarOpen()" (click)="closeSidebar()" aria-label="Close menu"></button>
+    <aside class="sidebar" [class.open]="sidebarOpen()">
         <div class="brand">
             <img class="brand-logo" src="dino.svg" alt="DINOH logo" />
             <div class="brand-text">
@@ -29,6 +30,7 @@
 
     <main class="main">
         <header class="topbar">
+            <button class="icon-btn menu-btn" (click)="toggleSidebar()" aria-label="Open menu">☰</button>
             <div class="search">
                 <span class="search-icon">🔍</span>
                 <input type="text" placeholder="Search for apps, tools or categories..." />
