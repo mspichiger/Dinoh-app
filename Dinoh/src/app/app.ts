@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface AppCard {
     name: string;
@@ -24,13 +25,46 @@ interface StatCard {
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './app.html',
     styleUrl: './app.css'
 })
 export class App {
     protected readonly title = signal('Dinoh');
     protected readonly sidebarOpen = signal(false);
+    protected readonly submitOpen = signal(false);
+
+    protected readonly availableTags = [
+        'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
+        'Compliance', 'Computational Toxicology', 'Creative', 'Data', 'Drug Discovery',
+        'Education', 'GSuite', 'Manufacturing', 'Marketing', 'PKPD Modeling', 'Productivity',
+        'Regulatory', 'Training', 'Writing'
+    ];
+
+    protected readonly functions = [
+        'IT', 'Data Science', 'Clinical Development', 'Pharma Research',
+        'Commercial', 'Manufacturing', 'Regulatory Affairs', 'Other'
+    ];
+
+    protected readonly confidentialityLevels = ['C1', 'C2', 'C3', 'C4'];
+
+    protected readonly currentUser = {
+        name: 'Mara Spichiger',
+        email: 'mara.spichiger@roche.com'
+    };
+
+    protected readonly maxDescription = 300;
+    protected readonly maxTags = 5;
+
+    protected submitForm = {
+        url: '',
+        name: '',
+        description: '',
+        tags: [] as string[],
+        function: '',
+        department: '',
+        confidentiality: 'C2'
+    };
 
     protected toggleSidebar() {
         this.sidebarOpen.update(v => !v);
@@ -38,6 +72,43 @@ export class App {
 
     protected closeSidebar() {
         this.sidebarOpen.set(false);
+    }
+
+    protected openSubmit() {
+        this.submitOpen.set(true);
+    }
+
+    protected closeSubmit() {
+        this.submitOpen.set(false);
+    }
+
+    protected toggleTag(tag: string) {
+        const i = this.submitForm.tags.indexOf(tag);
+        if (i >= 0) {
+            this.submitForm.tags.splice(i, 1);
+        } else if (this.submitForm.tags.length < this.maxTags) {
+            this.submitForm.tags.push(tag);
+        }
+    }
+
+    protected isTagSelected(tag: string): boolean {
+        return this.submitForm.tags.includes(tag);
+    }
+
+    protected isFormValid(): boolean {
+        const f = this.submitForm;
+        return !!(f.url && f.name && f.description && f.tags.length > 0 && f.function && f.confidentiality);
+    }
+
+    protected handleSubmit() {
+        if (!this.isFormValid()) return;
+        console.log('App submitted:', { ...this.submitForm, submittedBy: this.currentUser });
+        alert(`Danke! "${this.submitForm.name}" wurde eingereicht.`);
+        this.submitForm = {
+            url: '', name: '', description: '', tags: [],
+            function: '', department: '', confidentiality: 'C2'
+        };
+        this.closeSubmit();
     }
 
     protected readonly navItems = [
