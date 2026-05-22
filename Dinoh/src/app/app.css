@@ -587,3 +587,80 @@
   .modal-head { padding: 16px 18px; }
   .submit-form { padding: 16px 18px 20px; }
 }
+/* Submit modal (Gem-style) */
+.submit-modal { max-width: 640px; padding: 0; position: relative; }
+.modal-close.floating { position: absolute; top: 14px; right: 14px; z-index: 2; }
+.submit-form {
+  padding: 32px 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.submit-title { font-size: 26px; font-weight: 800; margin: 0; color: var(--gray-900); }
+.submit-subtitle { font-size: 14px; color: var(--gray-500); margin: -12px 0 4px; line-height: 1.55; }
+
+.field { display: flex; flex-direction: column; gap: 8px; position: relative; }
+.field-label { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+.req { color: #ef4444; font-weight: 700; }
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+  color: var(--gray-900);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: #9ca3af; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+.field textarea { resize: vertical; min-height: 110px; }
+
+.field-help { font-size: 12.5px; color: var(--blue); display: inline-flex; align-items: center; gap: 6px; }
+.help-icon { display: inline-block; width: 14px; height: 14px; border: 1px solid var(--blue); border-radius: 3px; text-align: center; line-height: 12px; font-size: 10px; }
+.field-counter { position: absolute; right: 4px; bottom: -20px; font-size: 12px; color: var(--gray-500); }
+
+.tag-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-pill {
+  background: #fff; border: 1px solid var(--gray-300);
+  color: var(--gray-700); padding: 6px 14px;
+  border-radius: 999px; font-size: 13px; cursor: pointer;
+  transition: all 0.15s;
+}
+.tag-pill:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
+.tag-pill.selected { background: var(--blue); border-color: var(--blue); color: #fff; }
+.tag-pill:disabled { opacity: 0.45; cursor: not-allowed; }
+.tag-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 12.5px; }
+.tag-count { color: var(--gray-500); }
+.suggest-tag { background: none; border: none; color: var(--blue); font-size: 12.5px; cursor: pointer; padding: 0; }
+.suggest-tag:hover { text-decoration: underline; }
+
+.submit-as { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 10px; padding: 12px 14px; }
+.submit-as-name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+.submit-as-email { font-size: 12.5px; color: var(--gray-500); margin-top: 2px; }
+
+.btn-submit-gem {
+  background: var(--blue); color: #fff; border: none;
+  border-radius: 12px; padding: 14px;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 10px; margin-top: 8px; transition: background 0.15s;
+}
+.btn-submit-gem:hover:not(:disabled) { background: var(--blue-dark); }
+.btn-submit-gem:disabled { background: var(--gray-300); cursor: not-allowed; }
+
+@media (max-width: 560px) {
+  .submit-form { padding: 24px 20px 20px; }
+  .submit-title { font-size: 22px; }
+}

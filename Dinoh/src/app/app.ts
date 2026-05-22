@@ -34,12 +34,36 @@ export class App {
     protected readonly sidebarOpen = signal(false);
     protected readonly submitOpen = signal(false);
 
-    protected readonly submitForm = {
-        name: '',
-        author: '',
-        category: '',
+    protected readonly availableTags = [
+        'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
+        'Compliance', 'Computational Toxicology', 'Creative', 'Data', 'Drug Discovery',
+        'Education', 'GSuite', 'Manufacturing', 'Marketing', 'PKPD Modeling', 'Productivity',
+        'Regulatory', 'Training', 'Writing'
+    ];
+
+    protected readonly functions = [
+        'IT', 'Data Science', 'Clinical Development', 'Pharma Research',
+        'Commercial', 'Manufacturing', 'Regulatory Affairs', 'Other'
+    ];
+
+    protected readonly confidentialityLevels = ['C1', 'C2', 'C3', 'C4'];
+
+    protected readonly currentUser = {
+        name: 'Mara Spichiger',
+        email: 'mara.spichiger@roche.com'
+    };
+
+    protected readonly maxDescription = 300;
+    protected readonly maxTags = 5;
+
+    protected submitForm = {
         url: '',
-        description: ''
+        name: '',
+        description: '',
+        tags: [] as string[],
+        function: '',
+        department: '',
+        confidentiality: 'C2'
     };
 
     protected toggleSidebar() {
@@ -58,14 +82,32 @@ export class App {
         this.submitOpen.set(false);
     }
 
+    protected toggleTag(tag: string) {
+        const i = this.submitForm.tags.indexOf(tag);
+        if (i >= 0) {
+            this.submitForm.tags.splice(i, 1);
+        } else if (this.submitForm.tags.length < this.maxTags) {
+            this.submitForm.tags.push(tag);
+        }
+    }
+
+    protected isTagSelected(tag: string): boolean {
+        return this.submitForm.tags.includes(tag);
+    }
+
+    protected isFormValid(): boolean {
+        const f = this.submitForm;
+        return !!(f.url && f.name && f.description && f.tags.length > 0 && f.function && f.confidentiality);
+    }
+
     protected handleSubmit() {
-        console.log('App submitted:', { ...this.submitForm });
+        if (!this.isFormValid()) return;
+        console.log('App submitted:', { ...this.submitForm, submittedBy: this.currentUser });
         alert(`Danke! "${this.submitForm.name}" wurde eingereicht.`);
-        this.submitForm.name = '';
-        this.submitForm.author = '';
-        this.submitForm.category = '';
-        this.submitForm.url = '';
-        this.submitForm.description = '';
+        this.submitForm = {
+            url: '', name: '', description: '', tags: [],
+            function: '', department: '', confidentiality: 'C2'
+        };
         this.closeSubmit();
     }
 

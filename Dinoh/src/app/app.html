@@ -193,55 +193,99 @@
 
 @if (submitOpen()) {
 <div class="modal-backdrop" (click)="closeSubmit()">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="submit-title"
+    <div class="modal submit-modal" role="dialog" aria-modal="true" aria-labelledby="submit-title"
         (click)="$event.stopPropagation()">
-        <header class="modal-head">
-            <div class="modal-title-wrap">
-                <img class="modal-dino" src="dino.svg" alt="" />
-                <h2 id="submit-title" class="modal-title">Submit your App</h2>
-            </div>
-            <button class="modal-close" (click)="closeSubmit()" aria-label="Close">✕</button>
-        </header>
+        <button class="modal-close floating" (click)="closeSubmit()" aria-label="Close">✕</button>
 
-        <form class="submit-form" (ngSubmit)="handleSubmit()" #f="ngForm">
+        <form class="submit-form" (ngSubmit)="handleSubmit()">
+            <h2 id="submit-title" class="submit-title">Submit an App</h2>
+            <p class="submit-subtitle">
+                Share your app with the community. Paste the link to your app and add a description
+                so others know what it does.
+            </p>
+
             <label class="field">
-                <span class="field-label">App Name *</span>
+                <span class="field-label">App URL <span class="req">*</span></span>
+                <input type="url" name="url" required [(ngModel)]="submitForm.url"
+                    placeholder="https://your-app.roche.com/…" />
+                <span class="field-help">
+                    <span class="help-icon">↗</span>
+                    Open your app, copy the link, and paste it here.
+                </span>
+            </label>
+
+            <label class="field">
+                <span class="field-label">App Name <span class="req">*</span></span>
                 <input type="text" name="name" required [(ngModel)]="submitForm.name"
                     placeholder="e.g. Roche Icon Generator" />
             </label>
 
             <label class="field">
-                <span class="field-label">Author / Team *</span>
-                <input type="text" name="author" required [(ngModel)]="submitForm.author" placeholder="e.g. ITOT KAU" />
+                <span class="field-label">Description <span class="req">*</span></span>
+                <textarea name="description" required rows="4"
+                    [maxlength]="maxDescription"
+                    [(ngModel)]="submitForm.description"
+                    placeholder="What does this app do? How does it help users?"></textarea>
+                <span class="field-counter">{{ submitForm.description.length }}/{{ maxDescription }}</span>
             </label>
 
+            <div class="field">
+                <span class="field-label">Tags <span class="req">*</span></span>
+                <div class="tag-pills">
+                    @for (t of availableTags; track t) {
+                    <button type="button" class="tag-pill"
+                        [class.selected]="isTagSelected(t)"
+                        [disabled]="!isTagSelected(t) && submitForm.tags.length >= maxTags"
+                        (click)="toggleTag(t)">{{ t }}</button>
+                    }
+                </div>
+                <div class="tag-meta">
+                    <span class="tag-count">{{ submitForm.tags.length }}/{{ maxTags }} tags selected</span>
+                    <button type="button" class="suggest-tag">+ Suggest a tag</button>
+                </div>
+            </div>
+
             <label class="field">
-                <span class="field-label">Category</span>
-                <select name="category" [(ngModel)]="submitForm.category">
-                    <option value="">Select category…</option>
-                    <option value="AI Tools">AI Tools</option>
-                    <option value="Analytics">Analytics</option>
-                    <option value="Automation">Automation</option>
-                    <option value="Clinical">Clinical</option>
-                    <option value="Other">Other</option>
+                <span class="field-label">Function <span class="req">*</span></span>
+                <select name="function" required [(ngModel)]="submitForm.function">
+                    <option value="">Select a function…</option>
+                    @for (fn of functions; track fn) {
+                    <option [value]="fn">{{ fn }}</option>
+                    }
                 </select>
             </label>
 
             <label class="field">
-                <span class="field-label">App URL</span>
-                <input type="url" name="url" [(ngModel)]="submitForm.url" placeholder="https://…" />
+                <span class="field-label">Department</span>
+                <input type="text" name="department" [(ngModel)]="submitForm.department"
+                    placeholder="e.g. Data Science, IT Operations" />
             </label>
 
             <label class="field">
-                <span class="field-label">Description *</span>
-                <textarea name="description" required rows="4" [(ngModel)]="submitForm.description"
-                    placeholder="Tell us what your app does…"></textarea>
+                <span class="field-label">Confidentiality <span class="req">*</span></span>
+                <select name="confidentiality" required [(ngModel)]="submitForm.confidentiality">
+                    @for (c of confidentialityLevels; track c) {
+                    <option [value]="c">{{ c }}</option>
+                    }
+                </select>
             </label>
 
-            <div class="modal-actions">
-                <button type="button" class="btn-secondary" (click)="closeSubmit()">Cancel</button>
-                <button type="submit" class="btn-primary" [disabled]="f.invalid">Submit App</button>
+            <div class="field">
+                <span class="field-label">Submitting as</span>
+                <div class="submit-as">
+                    <div class="submit-as-name">{{ currentUser.name }}</div>
+                    <div class="submit-as-email">{{ currentUser.email }}</div>
+                </div>
             </div>
+
+            <button type="submit" class="btn-submit-gem" [disabled]="!isFormValid()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+                Submit App
+            </button>
         </form>
     </div>
 </div>
