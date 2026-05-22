@@ -124,13 +124,30 @@ export class App {
         this.closeSubmit();
     }
 
-    protected readonly navItems = [
-        { label: 'Home', icon: '🏠', badge: null as number | null, active: true },
-        { label: 'All Apps', icon: '📦', badge: 42 as number | null, active: false },
-        { label: 'Golden Tier', icon: '🏅', badge: 7 as number | null, active: false },
-        { label: 'Hubs', icon: '📁', badge: 3 as number | null, active: false },
-        { label: 'Reports', icon: '📄', badge: null as number | null, active: false },
-        { label: 'Settings', icon: '⚙️', badge: null as number | null, active: false }
+    protected readonly sidebarCollapsed = signal(false);
+
+    protected toggleSidebarCollapsed() {
+        this.sidebarCollapsed.update(v => !v);
+    }
+
+    protected readonly homeItem = {
+        label: 'Home', icon: '🏠', active: true
+    };
+
+    protected readonly browseItems = [
+        { label: 'Prompt Library', icon: '📄', iconImg: null as string | null, badge: 7 as number | null, active: false },
+        { label: 'Top Rated', icon: '', iconImg: 'dino-gold.svg', badge: null as number | null, active: false }
+    ];
+
+    protected readonly categoryItems = [
+        { label: 'Coding', icon: '💻' },
+        { label: 'Writing & Creative', icon: '✍️' },
+        { label: 'Productivity', icon: '⚡' },
+        { label: 'Data & Analytics', icon: '📊' },
+        { label: 'Education', icon: '🎓' },
+        { label: 'Drug Development', icon: '💊' },
+        { label: 'Clinical & Regulatory', icon: '🩺' },
+        { label: 'Commercial', icon: '💼' }
     ];
 
     protected readonly stats: StatCard[] = [

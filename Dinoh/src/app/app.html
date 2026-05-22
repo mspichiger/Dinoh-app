@@ -62,18 +62,50 @@
     <img class="roche-logo" src="roche.svg" alt="Roche" />
 </header>
 
-<div class="layout">
+<div class="layout" [class.collapsed]="sidebarCollapsed()">
     <button class="sidebar-backdrop" [class.open]="sidebarOpen()" (click)="closeSidebar()"
         aria-label="Close menu"></button>
-    <aside class="sidebar" [class.open]="sidebarOpen()">
+    <aside class="sidebar" [class.open]="sidebarOpen()" [class.collapsed]="sidebarCollapsed()">
+        <button class="sidebar-collapse" (click)="toggleSidebarCollapsed()"
+            [attr.aria-label]="sidebarCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                @if (sidebarCollapsed()) {
+                <polyline points="9 18 15 12 9 6" />
+                } @else {
+                <polyline points="15 18 9 12 15 6" />
+                }
+            </svg>
+        </button>
+
         <nav class="nav">
-            @for (item of navItems; track item.label) {
-            <a class="nav-item" [class.active]="item.active">
+            <a class="nav-item" [class.active]="homeItem.active" [title]="homeItem.label">
+                <span class="nav-icon">{{ homeItem.icon }}</span>
+                <span class="nav-label">{{ homeItem.label }}</span>
+            </a>
+
+            <div class="nav-divider"></div>
+
+            <div class="nav-section">Browse</div>
+            @for (item of browseItems; track item.label) {
+            <a class="nav-item" [class.active]="item.active" [title]="item.label">
+                @if (item.iconImg) {
+                <span class="nav-icon"><img [src]="item.iconImg" [alt]="item.label" class="nav-icon-img" /></span>
+                } @else {
                 <span class="nav-icon">{{ item.icon }}</span>
+                }
                 <span class="nav-label">{{ item.label }}</span>
                 @if (item.badge !== null) {
                 <span class="nav-badge">{{ item.badge }}</span>
                 }
+            </a>
+            }
+
+            <div class="nav-section">Categories</div>
+            @for (cat of categoryItems; track cat.label) {
+            <a class="nav-item nav-item-sub" [title]="cat.label">
+                <span class="nav-icon">{{ cat.icon }}</span>
+                <span class="nav-label">{{ cat.label }}</span>
             </a>
             }
         </nav>
@@ -143,7 +175,7 @@
 
         <section class="top-rated">
             <div class="section-head">
-                <h3>⭐ Top Rated</h3>
+                <h3><img src="dino-gold.svg" alt="" class="inline-dino" /> Top Rated</h3>
                 <p>The highest rated apps based on cost/benefit ratio this week</p>
             </div>
 
@@ -151,7 +183,7 @@
                 @for (app of topRated; track app.name) {
                 <article class="app-card">
                     <div class="golden-badge">
-                        <div>🏅 GOLDEN TIER</div>
+                        <div><img src="dino-gold.svg" alt="" class="badge-dino" /> GOLDEN TIER</div>
                         <div class="rank">#{{ app.rank }}</div>
                     </div>
                     <div class="app-head">
@@ -163,7 +195,13 @@
                     </div>
                     <p class="app-desc">{{ app.description }}</p>
                     <div class="rating">
-                        <span class="dino-rating">🦕🦕🦕🦕🦕</span>
+                        <span class="dino-rating">
+                            <img src="dino-gold.svg" alt="" class="rating-dino" />
+                            <img src="dino-gold.svg" alt="" class="rating-dino" />
+                            <img src="dino-gold.svg" alt="" class="rating-dino" />
+                            <img src="dino-gold.svg" alt="" class="rating-dino" />
+                            <img src="dino-gold.svg" alt="" class="rating-dino" />
+                        </span>
                         <span class="rating-value">{{ app.rating.toFixed(1) }}</span>
                         <span class="rating-reviews">({{ app.reviews }})</span>
                     </div>
