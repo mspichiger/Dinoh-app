@@ -175,7 +175,10 @@
 
         <section class="top-rated">
             <div class="section-head">
-                <h3>⭐ Top Rated</h3>
+                <h3>
+                    <img class="section-dino" src="dino-gold.svg" alt="" />
+                    Top Rated
+                </h3>
                 <p>The highest rated apps based on cost/benefit ratio this week</p>
             </div>
 
@@ -195,7 +198,13 @@
                     </div>
                     <p class="app-desc">{{ app.description }}</p>
                     <div class="rating">
-                        <span class="dino-rating">🦕🦕🦕🦕🦕</span>
+                        <span class="dino-rating">
+                            <img class="rating-dino" src="dino-gold.svg" alt="" />
+                            <img class="rating-dino" src="dino-gold.svg" alt="" />
+                            <img class="rating-dino" src="dino-gold.svg" alt="" />
+                            <img class="rating-dino" src="dino-gold.svg" alt="" />
+                            <img class="rating-dino" src="dino-gold.svg" alt="" />
+                        </span>
                         <span class="rating-value">{{ app.rating.toFixed(1) }}</span>
                         <span class="rating-reviews">({{ app.reviews }})</span>
                     </div>
