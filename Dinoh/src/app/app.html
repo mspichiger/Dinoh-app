@@ -8,12 +8,13 @@
     </button>
 
     <div class="header-brand">
-        <div class="header-logo">
-            <img src="dino.svg" alt="" />
-        </div>
+        <img class="header-logo-img" src="dino.svg" alt="DINOH logo" />
         <div class="header-title">
-            <span class="header-title-main">DINOH</span>
-            <span class="header-title-sub">Digital Innovation Hub</span>
+            <div class="header-title-row">
+                <span class="header-title-main">DINOH</span>
+                <span class="header-title-hub">Digital Innovation Hub</span>
+            </div>
+            <span class="header-title-sub">by ITOT KAU</span>
         </div>
     </div>
 
@@ -65,14 +66,6 @@
     <button class="sidebar-backdrop" [class.open]="sidebarOpen()" (click)="closeSidebar()"
         aria-label="Close menu"></button>
     <aside class="sidebar" [class.open]="sidebarOpen()">
-        <div class="brand">
-            <img class="brand-logo" src="dino.svg" alt="DINOH logo" />
-            <div class="brand-text">
-                <div class="brand-title">DINOH</div>
-                <div class="brand-sub">by ITOT KAU</div>
-            </div>
-        </div>
-
         <nav class="nav">
             @for (item of navItems; track item.label) {
             <a class="nav-item" [class.active]="item.active">
