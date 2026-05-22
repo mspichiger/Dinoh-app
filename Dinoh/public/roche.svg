@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 170" fill="none">
+    <polygon points="50,8 270,8 312,85 270,162 50,162 8,85"
+        stroke="#0B41CD" stroke-width="12" stroke-linejoin="miter" fill="#fff" />
+    <text x="160" y="118" text-anchor="middle"
+        font-family="Helvetica, Arial, sans-serif"
+        font-weight="700" font-size="90" fill="#0B41CD" letter-spacing="-1">Roche</text>
+</svg>

@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface AppCard {
     name: string;
@@ -24,13 +25,22 @@ interface StatCard {
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './app.html',
     styleUrl: './app.css'
 })
 export class App {
     protected readonly title = signal('Dinoh');
     protected readonly sidebarOpen = signal(false);
+    protected readonly submitOpen = signal(false);
+
+    protected readonly submitForm = {
+        name: '',
+        author: '',
+        category: '',
+        url: '',
+        description: ''
+    };
 
     protected toggleSidebar() {
         this.sidebarOpen.update(v => !v);
@@ -38,6 +48,25 @@ export class App {
 
     protected closeSidebar() {
         this.sidebarOpen.set(false);
+    }
+
+    protected openSubmit() {
+        this.submitOpen.set(true);
+    }
+
+    protected closeSubmit() {
+        this.submitOpen.set(false);
+    }
+
+    protected handleSubmit() {
+        console.log('App submitted:', { ...this.submitForm });
+        alert(`Danke! "${this.submitForm.name}" wurde eingereicht.`);
+        this.submitForm.name = '';
+        this.submitForm.author = '';
+        this.submitForm.category = '';
+        this.submitForm.url = '';
+        this.submitForm.description = '';
+        this.closeSubmit();
     }
 
     protected readonly navItems = [
