@@ -161,7 +161,7 @@
         </section>
 
         <section class="stats-grid">
-            @for (s of stats; track s.label) {
+            @for (s of stats(); track s.label) {
             <div class="stat-card">
                 <div class="stat-head">
                     <span class="stat-icon">{{ s.icon }}</span>
@@ -183,7 +183,7 @@
             </div>
 
             <div class="cards">
-                @for (app of topRated; track app.name) {
+                @for (app of topRated(); track app.name) {
                 <article class="app-card">
                     <div class="golden-badge">
                         <div>🏅 GOLDEN TIER</div>
