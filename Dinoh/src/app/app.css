@@ -380,7 +380,8 @@
 .stat-value { font-size: 28px; font-weight: 800; margin-top: 4px; }
 
 /* Top rated */
-.section-head h3 { font-size: 20px; margin: 0 0 4px; }
+.section-head h3 { font-size: 20px; margin: 0 0 4px; display: inline-flex; align-items: center; gap: 8px; }
+.section-head .section-dino { width: 28px; height: 28px; object-fit: contain; }
 .section-head p { color: var(--gray-500); font-size: 14px; margin: 0; }
 
 .cards {
