@@ -11,7 +11,7 @@ copy .env.example .env
 npm run dev
 ```
 
-Server runs on `http://localhost:3000` by default.
+Server runs on `http://localhost:4000` by default.
 
 ## Endpoints
 

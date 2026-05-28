@@ -6,7 +6,7 @@ import { exploreRouter } from './routes/explore';
 import { submitRouter } from './routes/submit';
 
 const app = express();
-const PORT = Number(process.env.PORT ?? 3000);
+const PORT = Number(process.env.PORT ?? 4000);
 const CORS_ORIGIN = process.env.CORS_ORIGIN ?? 'http://localhost:4200';
 
 app.use(cors({ origin: CORS_ORIGIN }));
