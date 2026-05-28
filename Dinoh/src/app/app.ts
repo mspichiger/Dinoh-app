@@ -1,5 +1,5 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, computed, inject, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService, AppCard, ExploreItem, StatCard } from './services/api.service';
 
@@ -11,8 +11,12 @@ import { ApiService, AppCard, ExploreItem, StatCard } from './services/api.servi
 })
 export class App implements OnInit {
     private readonly api = inject(ApiService);
+    private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
     ngOnInit(): void {
+        // Skip HTTP during SSR/prerender — data will be fetched on the client.
+        if (!this.isBrowser) return;
+
         this.api.getStats().subscribe({
             next: data => this.stats.set(data),
             error: err => console.error('Failed to load stats', err)
