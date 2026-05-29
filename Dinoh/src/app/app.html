@@ -128,38 +128,126 @@
         </section>
 
         <section class="hero">
+            <svg class="hero-bg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <defs>
+                    <radialGradient id="heroGlow" cx="80%" cy="20%" r="60%">
+                        <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.55" />
+                        <stop offset="100%" stop-color="#0b1e6b" stop-opacity="0" />
+                    </radialGradient>
+                </defs>
+                <rect width="600" height="400" fill="url(#heroGlow)" />
+                <g stroke="rgba(255,255,255,0.22)" stroke-width="1.2" fill="none">
+                    <line x1="430" y1="60" x2="520" y2="120" />
+                    <line x1="430" y1="60" x2="350" y2="140" />
+                    <line x1="520" y1="120" x2="560" y2="220" />
+                    <line x1="350" y1="140" x2="420" y2="240" />
+                    <line x1="420" y1="240" x2="560" y2="220" />
+                    <line x1="420" y1="240" x2="470" y2="340" />
+                    <line x1="560" y1="220" x2="470" y2="340" />
+                    <line x1="350" y1="140" x2="300" y2="270" />
+                    <line x1="300" y1="270" x2="420" y2="240" />
+                </g>
+                <g fill="rgba(255,255,255,0.85)">
+                    <circle cx="430" cy="60" r="6" />
+                    <circle cx="520" cy="120" r="6" />
+                    <circle cx="350" cy="140" r="6" />
+                    <circle cx="560" cy="220" r="6" />
+                    <circle cx="420" cy="240" r="6" />
+                    <circle cx="470" cy="340" r="6" />
+                    <circle cx="300" cy="270" r="5" />
+                </g>
+                <g fill="#fbbf24">
+                    <polygon points="555,90 562,104 576,107 565,117 568,131 555,124 542,131 545,117 534,107 548,104"
+                        opacity="0.9" />
+                    <polygon points="515,310 520,320 530,322 522,329 524,339 515,334 506,339 508,329 500,322 510,320"
+                        opacity="0.9" />
+                </g>
+            </svg>
+
             <div class="hero-content">
-                <div class="hero-eyebrow">
+                <div class="hero-badge">
                     <img class="hero-dino" src="dino.png" alt="" />
-                    <span>DIGITAL INNOVATION HUB</span>
+                    <span>DINOH · DIGITAL INNOVATION HUB</span>
                 </div>
-                <h1 class="hero-brand">DINOH</h1>
-                <h2 class="hero-title">Apps ranked by cost / benefit</h2>
+                <h1 class="hero-brand">Discover &amp; Share<br />Roche-built Apps</h1>
                 <p class="hero-desc">
-                    Share your self-made applications and discover innovative tools from other
-                    developers. Container as a Service (CaaS) hosting platform.
+                    Explore self-made apps and prompts from Roche colleagues, ranked by cost/benefit.
+                    Hosted on the Container-as-a-Service platform.
                 </p>
 
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-value">42</div>
-                        <div class="hero-stat-label">Total Apps</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value">7</div>
-                        <div class="hero-stat-label">Golden Tier</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value">3</div>
-                        <div class="hero-stat-label">Hubs</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value">2.4k</div>
-                        <div class="hero-stat-label">Users</div>
-                    </div>
+                <div class="hero-actions">
+                    <button class="hero-btn primary" (click)="scrollToSection('top-rated')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1" />
+                            <rect x="14" y="3" width="7" height="7" rx="1" />
+                            <rect x="3" y="14" width="7" height="7" rx="1" />
+                            <rect x="14" y="14" width="7" height="7" rx="1" />
+                        </svg>
+                        Browse Apps
+                    </button>
+                    <button class="hero-btn" (click)="scrollToSection('top-rated')">
+                        <img src="dino-gold.png" alt="" width="16" height="16" style="object-fit:contain" />
+                        Top Rated
+                    </button>
+                    <button class="hero-btn" (click)="scrollToSection('explore')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                        </svg>
+                        Prompt Library
+                    </button>
                 </div>
             </div>
-            <img class="hero-illustration" src="dino.png" alt="" />
+
+            <div class="hero-tiles">
+                <div class="hero-tile">
+                    <div class="hero-tile-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1" />
+                            <rect x="14" y="3" width="7" height="7" rx="1" />
+                            <rect x="3" y="14" width="7" height="7" rx="1" />
+                            <rect x="14" y="14" width="7" height="7" rx="1" />
+                        </svg>
+                    </div>
+                    <div class="hero-tile-value">0</div>
+                    <div class="hero-tile-label">APPS</div>
+                </div>
+                <div class="hero-tile">
+                    <div class="hero-tile-icon gold">
+                        <img src="dino-gold.png" alt="" width="20" height="20" style="object-fit:contain" />
+                    </div>
+                    <div class="hero-tile-value">0</div>
+                    <div class="hero-tile-label">GOLDEN</div>
+                </div>
+                <div class="hero-tile">
+                    <div class="hero-tile-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 21h18" />
+                            <path d="M5 21V10l7-5 7 5v11" />
+                            <path d="M10 21v-6h4v6" />
+                        </svg>
+                    </div>
+                    <div class="hero-tile-value">0</div>
+                    <div class="hero-tile-label">HUBS</div>
+                </div>
+                <div class="hero-tile">
+                    <div class="hero-tile-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <div class="hero-tile-value">0</div>
+                    <div class="hero-tile-label">USERS</div>
+                </div>
+            </div>
         </section>
 
         <section class="stats-grid">
