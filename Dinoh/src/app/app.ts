@@ -40,7 +40,7 @@ export class App implements OnInit {
     protected readonly view = signal<'home' | 'prompts' | 'top-rated'>('home');
     protected readonly promptsSearch = signal('');
     protected readonly topRatedSearch = signal('');
-    protected readonly topRatedFilter = signal<'all' | 'GEM' | 'NOTEBOOK' | 'PROMPT'>('all');
+    protected readonly topRatedFilter = signal<'all' | 'APP' | 'PROMPT'>('all');
 
     protected readonly availableTags = [
         'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
@@ -197,7 +197,7 @@ export class App implements OnInit {
         this.closeSidebar();
     }
 
-    protected setTopRatedFilter(f: 'all' | 'GEM' | 'NOTEBOOK' | 'PROMPT') {
+    protected setTopRatedFilter(f: 'all' | 'APP' | 'PROMPT') {
         this.topRatedFilter.set(f);
     }
 
@@ -248,8 +248,7 @@ export class App implements OnInit {
         const items = this.exploreItems();
         return {
             all: items.length,
-            GEM: items.filter(i => i.type === 'GEM').length,
-            NOTEBOOK: items.filter(i => i.type === 'NOTEBOOK').length,
+            APP: items.filter(i => i.type === 'APP').length,
             PROMPT: items.filter(i => i.type === 'PROMPT').length
         };
     });

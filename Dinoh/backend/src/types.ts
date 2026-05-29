@@ -20,7 +20,7 @@ export interface StatCard {
     accent: string;
 }
 
-export type ExploreType = 'GEM' | 'NOTEBOOK' | 'PROMPT';
+export type ExploreType = 'APP' | 'PROMPT';
 export type Confidentiality = 'C1' | 'C2' | 'C3' | 'C4';
 
 export interface ExploreItem {

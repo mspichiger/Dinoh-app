@@ -52,7 +52,7 @@ export const topRated: AppCard[] = [
 export const exploreItems: ExploreItem[] = [
     {
         id: 'ex-1',
-        type: 'GEM',
+        type: 'APP',
         title: 'J.A.R.V.I.S',
         author: 'mohsin_ahmed.khan@roche.com',
         description: 'J.A.R.V.I.S. leverages Gemini AI to transform raw voice notes from the field into structured, EPIX-ready insights in seconds.',
@@ -65,7 +65,7 @@ export const exploreItems: ExploreItem[] = [
     },
     {
         id: 'ex-2',
-        type: 'GEM',
+        type: 'APP',
         title: 'Applause writing',
         author: 'angie.ofarrell@roche.com',
         description: 'Helps you easily draft Applause feedback for a colleague based on an informal description of their work and contributions.',
@@ -78,7 +78,7 @@ export const exploreItems: ExploreItem[] = [
     },
     {
         id: 'ex-3',
-        type: 'GEM',
+        type: 'APP',
         title: 'Workday goal progress updater',
         author: 'angie.ofarrell@roche.com',
         description: 'This Gem will take the input of a goal (Title + Description) and search your Workday account for matching goals.',
@@ -91,7 +91,7 @@ export const exploreItems: ExploreItem[] = [
     },
     {
         id: 'ex-4',
-        type: 'GEM',
+        type: 'APP',
         title: 'FPS BxGEM',
         author: 'resheeban.selvarajah@roche.com',
         description: 'BxGEM is an AI partner uniting global strategy and local insights to create compliant marketing solutions. Powered by Gemini.',
@@ -104,7 +104,7 @@ export const exploreItems: ExploreItem[] = [
     },
     {
         id: 'ex-5',
-        type: 'NOTEBOOK',
+        type: 'APP',
         title: 'CGM smartAID Notebook',
         author: 'cdm.team@roche.com',
         description: 'A NotebookLM workspace with curated CGM clinical references and onboarding material for new commercial roles.',
@@ -130,7 +130,7 @@ export const exploreItems: ExploreItem[] = [
     },
     {
         id: 'ex-7',
-        type: 'GEM',
+        type: 'APP',
         title: 'Roche Icon Generator',
         author: 'itot.kau@roche.com',
         description: 'Generates icons that follow the style of Roche icons from branding.roche.com.',

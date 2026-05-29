@@ -26,7 +26,7 @@ export interface StatCard {
 
 export interface ExploreItem {
     id?: string;
-    type: 'GEM' | 'NOTEBOOK' | 'PROMPT';
+    type: 'APP' | 'PROMPT';
     title: string;
     author: string;
     description: string;

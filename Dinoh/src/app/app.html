@@ -362,22 +362,19 @@
                     <div class="explore-card-head" [attr.data-type]="item.type">
                         <span class="type-badge">{{ item.type }}</span>
                         <div class="head-icon">
-                            @if (item.type === 'GEM') {
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                            </svg>
-                            } @else if (item.type === 'NOTEBOOK') {
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                            </svg>
-                            } @else {
+                            @if (item.type === 'PROMPT') {
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                                 <polyline points="14 2 14 8 20 8" />
+                            </svg>
+                            } @else {
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="3" width="7" height="7" rx="1" />
+                                <rect x="3" y="14" width="7" height="7" rx="1" />
+                                <rect x="14" y="14" width="7" height="7" rx="1" />
                             </svg>
                             }
                         </div>
@@ -593,22 +590,16 @@
                     (click)="setTopRatedFilter('all')">
                     All ({{ topRatedCounts().all }})
                 </button>
-                <button class="toprated-pill" [class.active]="topRatedFilter() === 'GEM'"
-                    (click)="setTopRatedFilter('GEM')">
+                <button class="toprated-pill" [class.active]="topRatedFilter() === 'APP'"
+                    (click)="setTopRatedFilter('APP')">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" />
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
                     </svg>
-                    Gems ({{ topRatedCounts().GEM }})
-                </button>
-                <button class="toprated-pill" [class.active]="topRatedFilter() === 'NOTEBOOK'"
-                    (click)="setTopRatedFilter('NOTEBOOK')">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z" />
-                        <path d="M8 4v16" />
-                    </svg>
-                    Notebooks ({{ topRatedCounts().NOTEBOOK }})
+                    Apps ({{ topRatedCounts().APP }})
                 </button>
                 <button class="toprated-pill" [class.active]="topRatedFilter() === 'PROMPT'"
                     (click)="setTopRatedFilter('PROMPT')">
@@ -639,24 +630,19 @@
                     <div class="explore-card-head" [attr.data-type]="item.type">
                         <span class="type-badge">{{ item.type }}</span>
                         <div class="head-icon">
-                            @if (item.type === 'GEM') {
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                            </svg>
-                            } @else if (item.type === 'NOTEBOOK') {
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="9" cy="8" r="3" />
-                                <path d="M3 20c0-3 3-5 6-5s6 2 6 5" />
-                                <circle cx="17" cy="9" r="2.5" />
-                                <path d="M14 18c0-2 2-3.5 4-3.5s3.5 1.5 3.5 3.5" />
-                            </svg>
-                            } @else {
+                            @if (item.type === 'PROMPT') {
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                                 <polyline points="14 2 14 8 20 8" />
+                            </svg>
+                            } @else {
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="3" width="7" height="7" rx="1" />
+                                <rect x="3" y="14" width="7" height="7" rx="1" />
+                                <rect x="14" y="14" width="7" height="7" rx="1" />
                             </svg>
                             }
                         </div>
