@@ -37,6 +37,8 @@ export class App implements OnInit {
     protected readonly helpOpen = signal(false);
     protected readonly shareOpen = signal(false);
     protected readonly shareTab = signal<'apps' | 'prompts'>('apps');
+    protected readonly view = signal<'home' | 'prompts'>('home');
+    protected readonly promptsSearch = signal('');
 
     protected readonly availableTags = [
         'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
@@ -157,17 +159,31 @@ export class App implements OnInit {
     };
 
     protected readonly browseItems = [
-        { label: 'Prompt Library', icon: '📄', iconImg: null as string | null, badge: 7 as number | null, active: false, target: 'explore' },
+        { label: 'Prompt Library', icon: '📄', iconImg: null as string | null, badge: 7 as number | null, active: false, target: 'prompts' },
         { label: 'Top Rated', icon: '', iconImg: 'dino-gold.png', badge: null as number | null, active: false, target: 'top-rated' }
     ];
 
+    protected isNavActive(target: string): boolean {
+        if (this.view() === 'prompts') return target === 'prompts';
+        return target === 'top';
+    }
+
     protected scrollToSection(id: string) {
-        if (!this.isBrowser) return;
+        if (id === 'prompts') {
+            this.view.set('prompts');
+            if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
+            this.closeSidebar();
+            return;
+        }
+        this.view.set('home');
+        if (!this.isBrowser) { this.closeSidebar(); return; }
         if (id === 'top') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-            const el = document.getElementById(id);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 0);
         }
         this.closeSidebar();
     }
@@ -194,6 +210,18 @@ export class App implements OnInit {
     protected readonly filteredExplore = computed<ExploreItem[]>(() => {
         const q = this.exploreSearch().toLowerCase().trim();
         const items = this.exploreItems();
+        if (!q) return items;
+        return items.filter(i =>
+            i.title.toLowerCase().includes(q) ||
+            i.description.toLowerCase().includes(q) ||
+            i.author.toLowerCase().includes(q) ||
+            i.tags.some(t => t.toLowerCase().includes(q))
+        );
+    });
+
+    protected readonly filteredPrompts = computed<ExploreItem[]>(() => {
+        const q = this.promptsSearch().toLowerCase().trim();
+        const items = this.exploreItems().filter(i => i.type === 'PROMPT');
         if (!q) return items;
         return items.filter(i =>
             i.title.toLowerCase().includes(q) ||

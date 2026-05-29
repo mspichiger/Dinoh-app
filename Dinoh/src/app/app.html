@@ -79,7 +79,7 @@
         </button>
 
         <nav class="nav">
-            <a class="nav-item" [class.active]="homeItem.active" [title]="homeItem.label"
+            <a class="nav-item" [class.active]="isNavActive(homeItem.target)" [title]="homeItem.label"
                 (click)="scrollToSection(homeItem.target)" style="cursor:pointer">
                 <span class="nav-icon">{{ homeItem.icon }}</span>
                 <span class="nav-label">{{ homeItem.label }}</span>
@@ -89,8 +89,8 @@
 
             <div class="nav-section">Browse</div>
             @for (item of browseItems; track item.label) {
-            <a class="nav-item" [class.active]="item.active" [title]="item.label" (click)="scrollToSection(item.target)"
-                style="cursor:pointer">
+            <a class="nav-item" [class.active]="isNavActive(item.target)" [title]="item.label"
+                (click)="scrollToSection(item.target)" style="cursor:pointer">
                 @if (item.iconImg) {
                 <span class="nav-icon"><img [src]="item.iconImg" [alt]="item.label" class="nav-icon-img" /></span>
                 } @else {
@@ -106,7 +106,6 @@
             <div class="nav-section">Categories</div>
             @for (cat of categoryItems; track cat.label) {
             <a class="nav-item nav-item-sub" [title]="cat.label">
-                <span class="nav-icon">{{ cat.icon }}</span>
                 <span class="nav-label">{{ cat.label }}</span>
             </a>
             }
@@ -120,6 +119,7 @@
     </aside>
 
     <main class="main">
+        @if (view() === 'home') {
         <section class="search-row">
             <div class="search">
                 <span class="search-icon">🔍</span>
@@ -442,6 +442,139 @@
                 }
             </div>
         </section>
+        } @else if (view() === 'prompts') {
+        <section class="prompts-hero">
+            <h1 class="prompts-title">Discover <span class="prompts-title-accent">Prompt Templates</span></h1>
+            <p class="prompts-subtitle">
+                Ready-to-use prompt templates for various AI tasks. Browse, copy, and start
+                prompting in seconds.
+            </p>
+            <div class="prompts-search">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" placeholder="Search prompts by name, description, or author..."
+                    [ngModel]="promptsSearch()" (ngModelChange)="promptsSearch.set($event)" name="promptsSearch" />
+            </div>
+        </section>
+
+        <section class="prompts-cta">
+            <div class="prompts-cta-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="8" y1="13" x2="16" y2="13" />
+                    <line x1="8" y1="17" x2="13" y2="17" />
+                </svg>
+            </div>
+            <div class="prompts-cta-text">
+                <h3>Create a new prompt</h3>
+                <p>Add a reusable prompt template to the catalog.</p>
+            </div>
+            <button class="prompts-cta-btn" (click)="openSubmit()">
+                <span>+</span> New prompt
+            </button>
+        </section>
+
+        <section class="explore">
+            <div class="explore-toolbar">
+                <button class="toolbar-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="6" x2="20" y2="6" />
+                        <line x1="7" y1="12" x2="17" y2="12" />
+                        <line x1="10" y1="18" x2="14" y2="18" />
+                    </svg>
+                    Browse &amp; Filter
+                </button>
+                <button class="toolbar-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h13" />
+                        <path d="M3 12h9" />
+                        <path d="M3 18h5" />
+                        <path d="M17 8l4 4-4 4" />
+                    </svg>
+                    Newest first
+                </button>
+                <span class="results-count">{{ filteredPrompts().length }} results</span>
+            </div>
+
+            <div class="explore-grid">
+                @for (item of filteredPrompts(); track item.title) {
+                <article class="explore-card">
+                    <div class="explore-card-head" [attr.data-type]="item.type">
+                        <span class="type-badge">{{ item.type }}</span>
+                        <div class="head-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="explore-card-body">
+                        <div class="card-title-row">
+                            <h4 class="card-title">{{ item.title }}</h4>
+                            <button class="bookmark-btn" aria-label="Bookmark">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                                </svg>
+                                <span>{{ item.bookmarks }}</span>
+                            </button>
+                        </div>
+                        <a class="card-author" href="mailto:{{ item.author }}">by {{ item.author }}</a>
+                        <p class="card-desc">{{ item.description }}</p>
+                        <div class="card-tags">
+                            @for (t of item.tags; track t) {
+                            <span class="card-tag">{{ t }}</span>
+                            }
+                            @if (item.extraTags > 0) {
+                            <span class="card-tag extra">+{{ item.extraTags }}</span>
+                            }
+                            <span class="card-conf" [class.c1]="item.confidentiality === 'C1'"
+                                [class.c2]="item.confidentiality === 'C2'" [class.c3]="item.confidentiality === 'C3'"
+                                [class.c4]="item.confidentiality === 'C4'">
+                                {{ item.confidentiality }}
+                            </span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                @for (s of [1,2,3,4,5]; track s) {
+                                <svg width="14" height="14" viewBox="0 0 24 24"
+                                    [attr.fill]="s <= item.rating ? '#fbbf24' : 'none'" stroke="#fbbf24"
+                                    stroke-width="2" stroke-linejoin="round">
+                                    <polygon
+                                        points="12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5 12 2" />
+                                </svg>
+                                }
+                                @if (item.reviews > 0) {
+                                <span class="rating-num">{{ item.rating.toFixed(1) }} ({{ item.reviews }})</span>
+                                } @else {
+                                <span class="rating-num muted">— (0)</span>
+                                }
+                            </div>
+                            <button class="open-btn">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                } @empty {
+                <div class="prompts-empty">No prompts yet. Be the first to submit one!</div>
+                }
+            </div>
+        </section>
+        }
     </main>
 </div>
 
