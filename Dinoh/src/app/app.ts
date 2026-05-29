@@ -37,8 +37,10 @@ export class App implements OnInit {
     protected readonly helpOpen = signal(false);
     protected readonly shareOpen = signal(false);
     protected readonly shareTab = signal<'apps' | 'prompts'>('apps');
-    protected readonly view = signal<'home' | 'prompts'>('home');
+    protected readonly view = signal<'home' | 'prompts' | 'top-rated'>('home');
     protected readonly promptsSearch = signal('');
+    protected readonly topRatedSearch = signal('');
+    protected readonly topRatedFilter = signal<'all' | 'GEM' | 'NOTEBOOK' | 'PROMPT'>('all');
 
     protected readonly availableTags = [
         'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
@@ -165,12 +167,19 @@ export class App implements OnInit {
 
     protected isNavActive(target: string): boolean {
         if (this.view() === 'prompts') return target === 'prompts';
+        if (this.view() === 'top-rated') return target === 'top-rated';
         return target === 'top';
     }
 
     protected scrollToSection(id: string) {
         if (id === 'prompts') {
             this.view.set('prompts');
+            if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
+            this.closeSidebar();
+            return;
+        }
+        if (id === 'top-rated') {
+            this.view.set('top-rated');
             if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
             this.closeSidebar();
             return;
@@ -186,6 +195,10 @@ export class App implements OnInit {
             }, 0);
         }
         this.closeSidebar();
+    }
+
+    protected setTopRatedFilter(f: 'all' | 'GEM' | 'NOTEBOOK' | 'PROMPT') {
+        this.topRatedFilter.set(f);
     }
 
     protected readonly categoryItems = [
@@ -229,5 +242,29 @@ export class App implements OnInit {
             i.author.toLowerCase().includes(q) ||
             i.tags.some(t => t.toLowerCase().includes(q))
         );
+    });
+
+    protected readonly topRatedCounts = computed(() => {
+        const items = this.exploreItems();
+        return {
+            all: items.length,
+            GEM: items.filter(i => i.type === 'GEM').length,
+            NOTEBOOK: items.filter(i => i.type === 'NOTEBOOK').length,
+            PROMPT: items.filter(i => i.type === 'PROMPT').length
+        };
+    });
+
+    protected readonly filteredTopRated = computed<ExploreItem[]>(() => {
+        const q = this.topRatedSearch().toLowerCase().trim();
+        const f = this.topRatedFilter();
+        let items = [...this.exploreItems()].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
+        if (f !== 'all') items = items.filter(i => i.type === f);
+        if (q) items = items.filter(i =>
+            i.title.toLowerCase().includes(q) ||
+            i.description.toLowerCase().includes(q) ||
+            i.author.toLowerCase().includes(q) ||
+            i.tags.some(t => t.toLowerCase().includes(q))
+        );
+        return items;
     });
 }

@@ -190,7 +190,7 @@
                         <img src="dino-gold.png" alt="" width="16" height="16" style="object-fit:contain" />
                         Top Rated
                     </button>
-                    <button class="hero-btn" (click)="scrollToSection('explore')">
+                    <button class="hero-btn" (click)="scrollToSection('prompts')">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -571,6 +571,152 @@
                 </article>
                 } @empty {
                 <div class="prompts-empty">No prompts yet. Be the first to submit one!</div>
+                }
+            </div>
+        </section>
+        } @else if (view() === 'top-rated') {
+        <section class="toprated-hero">
+            <div class="toprated-hero-inner">
+                <div class="toprated-hero-icon">
+                    <img src="dino-gold.png" alt="" width="40" height="40" style="object-fit:contain" />
+                </div>
+                <div class="toprated-hero-text">
+                    <h1 class="toprated-title">Top Rated</h1>
+                    <p class="toprated-subtitle">Highest rated Gems, Notebooks, and Prompts by the community</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="toprated-toolbar">
+            <div class="toprated-pills">
+                <button class="toprated-pill" [class.active]="topRatedFilter() === 'all'"
+                    (click)="setTopRatedFilter('all')">
+                    All ({{ topRatedCounts().all }})
+                </button>
+                <button class="toprated-pill" [class.active]="topRatedFilter() === 'GEM'"
+                    (click)="setTopRatedFilter('GEM')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" />
+                    </svg>
+                    Gems ({{ topRatedCounts().GEM }})
+                </button>
+                <button class="toprated-pill" [class.active]="topRatedFilter() === 'NOTEBOOK'"
+                    (click)="setTopRatedFilter('NOTEBOOK')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z" />
+                        <path d="M8 4v16" />
+                    </svg>
+                    Notebooks ({{ topRatedCounts().NOTEBOOK }})
+                </button>
+                <button class="toprated-pill" [class.active]="topRatedFilter() === 'PROMPT'"
+                    (click)="setTopRatedFilter('PROMPT')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    Prompts ({{ topRatedCounts().PROMPT }})
+                </button>
+            </div>
+            <div class="toprated-search">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" placeholder="Search..." [ngModel]="topRatedSearch()"
+                    (ngModelChange)="topRatedSearch.set($event)" name="topRatedSearch" />
+            </div>
+        </section>
+
+        <section class="explore toprated-grid-section">
+            <div class="explore-grid">
+                @for (item of filteredTopRated(); track item.title; let i = $index) {
+                <article class="explore-card toprated-card">
+                    <span class="rank-badge">{{ i + 1 }}</span>
+                    <div class="explore-card-head" [attr.data-type]="item.type">
+                        <span class="type-badge">{{ item.type }}</span>
+                        <div class="head-icon">
+                            @if (item.type === 'GEM') {
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                            </svg>
+                            } @else if (item.type === 'NOTEBOOK') {
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="8" r="3" />
+                                <path d="M3 20c0-3 3-5 6-5s6 2 6 5" />
+                                <circle cx="17" cy="9" r="2.5" />
+                                <path d="M14 18c0-2 2-3.5 4-3.5s3.5 1.5 3.5 3.5" />
+                            </svg>
+                            } @else {
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                            </svg>
+                            }
+                        </div>
+                    </div>
+                    <div class="explore-card-body">
+                        <div class="card-title-row">
+                            <h4 class="card-title">{{ item.title }}</h4>
+                            <button class="bookmark-btn" aria-label="Bookmark">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                                </svg>
+                                <span>{{ item.bookmarks }}</span>
+                            </button>
+                        </div>
+                        <a class="card-author" href="mailto:{{ item.author }}">by {{ item.author }}</a>
+                        <p class="card-desc">{{ item.description }}</p>
+                        <div class="card-tags">
+                            @for (t of item.tags; track t) {
+                            <span class="card-tag">{{ t }}</span>
+                            }
+                            @if (item.extraTags > 0) {
+                            <span class="card-tag extra">+{{ item.extraTags }}</span>
+                            }
+                            <span class="card-conf" [class.c1]="item.confidentiality === 'C1'"
+                                [class.c2]="item.confidentiality === 'C2'" [class.c3]="item.confidentiality === 'C3'"
+                                [class.c4]="item.confidentiality === 'C4'">
+                                {{ item.confidentiality }}
+                            </span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                @for (s of [1,2,3,4,5]; track s) {
+                                <svg width="14" height="14" viewBox="0 0 24 24"
+                                    [attr.fill]="s <= item.rating ? '#fbbf24' : 'none'" stroke="#fbbf24"
+                                    stroke-width="2" stroke-linejoin="round">
+                                    <polygon
+                                        points="12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5 12 2" />
+                                </svg>
+                                }
+                                @if (item.reviews > 0) {
+                                <span class="rating-num">{{ item.rating.toFixed(1) }} ({{ item.reviews }})</span>
+                                } @else {
+                                <span class="rating-num muted">— (0)</span>
+                                }
+                            </div>
+                            <button class="open-btn">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                                Open
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                } @empty {
+                <div class="prompts-empty">No items match your filter.</div>
                 }
             </div>
         </section>
