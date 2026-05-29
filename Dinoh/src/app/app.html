@@ -36,7 +36,7 @@
         <span class="submit-plus">+</span> Submit
     </button>
 
-    <button class="header-btn">
+    <button class="header-btn" (click)="openHelp()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
             stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10" />
@@ -451,6 +451,153 @@
                 Submit App
             </button>
         </form>
+    </div>
+</div>
+}
+
+
+@if (helpOpen()) {
+<div class="modal-backdrop" (click)="closeHelp()">
+    <div class="modal help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title"
+        (click)="$event.stopPropagation()">
+        <div class="help-head">
+            <h2 id="help-title" class="help-title">How to Use EverydayAI Marketplace</h2>
+            <button class="modal-close" (click)="closeHelp()" aria-label="Close">?</button>
+        </div>
+
+        <div class="help-body">
+            <p class="help-intro">
+                EverydayAI Marketplace is your central hub for discovering and sharing AI-powered
+                tools built by Roche colleagues. Browse curated Gemini Gems, NotebookLM Notebooks,
+                and reusable Prompts to supercharge your workflow.
+            </p>
+
+            <div class="help-section">
+                <div class="help-section-head">
+                    <span class="help-icon-box blue">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z" />
+                            <path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z" />
+                        </svg>
+                    </span>
+                    <h3>What are Gemini Gems?</h3>
+                </div>
+                <p>Gems are pre-configured Google Gemini assistants specialized for specific tasks
+                    like writing, analysis, coding, or research. Each Gem is ready to use � just open
+                    the link and start chatting.</p>
+                <div class="help-steps">
+                    <div class="help-steps-title">HOW TO USE A GEM:</div>
+                    <ol>
+                        <li>Click on a Gem card to view details</li>
+                        <li>Click the "Open" button to launch the Gem directly in Google Gemini</li>
+                        <li>Start chatting! The Gem is already configured and ready to use</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <div class="help-section-head">
+                    <span class="help-icon-box orange">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                        </svg>
+                    </span>
+                    <h3>What are NotebookLM Notebooks?</h3>
+                </div>
+                <p>Notebooks are curated collections of sources and knowledge organized in Google
+                    NotebookLM. They help you research topics, study documents, or explore knowledge
+                    bases with AI-powered assistance.</p>
+                <div class="help-steps">
+                    <div class="help-steps-title">HOW TO USE A NOTEBOOK:</div>
+                    <ol>
+                        <li>Click on a Notebook card to view details</li>
+                        <li>Click the "Open" button to launch it in NotebookLM</li>
+                        <li>Start chatting with the AI about the content</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <div class="help-section-head">
+                    <span class="help-icon-box green">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="8" y1="13" x2="16" y2="13" />
+                            <line x1="8" y1="17" x2="13" y2="17" />
+                        </svg>
+                    </span>
+                    <h3>What are Prompts?</h3>
+                </div>
+                <p>Prompts are reusable text instructions for Gemini-powered Google tools like
+                    Gemini, Google Docs, Sheets, and Slides. They help you get consistent,
+                    high-quality AI outputs for common tasks.</p>
+                <div class="help-steps">
+                    <div class="help-steps-title">HOW TO USE A PROMPT:</div>
+                    <ol>
+                        <li>Click on a Prompt card to view details</li>
+                        <li>Copy the prompt text using the copy button</li>
+                        <li>Paste it into Gemini, Google Docs, Sheets, or any supported tool</li>
+                        <li>Adjust any placeholders and run the prompt</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3 class="help-features-title">Key Features</h3>
+            <div class="help-features">
+                <div class="help-feature">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <div>
+                        <div class="help-feature-title">Search</div>
+                        <div class="help-feature-desc">Find tools by name, description, or tags</div>
+                    </div>
+                </div>
+                <div class="help-feature">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5 12 2" />
+                    </svg>
+                    <div>
+                        <div class="help-feature-title">Rate</div>
+                        <div class="help-feature-desc">Rate tools to help others discover the best ones</div>
+                    </div>
+                </div>
+                <div class="help-feature">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    <div>
+                        <div class="help-feature-title">Submit</div>
+                        <div class="help-feature-desc">Share your own Gems, Notebooks, or Prompts</div>
+                    </div>
+                </div>
+                <div class="help-feature">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                    </svg>
+                    <div>
+                        <div class="help-feature-title">Favorites</div>
+                        <div class="help-feature-desc">Bookmark tools you love and find them later in My Favorites</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-contact">
+                <strong>Need more help?</strong> Reach out to us at
+                <a href="mailto:global.everydayai@roche.com">global.everydayai@roche.com</a>.
+            </div>
+        </div>
     </div>
 </div>
 }

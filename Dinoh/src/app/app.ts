@@ -34,6 +34,7 @@ export class App implements OnInit {
     protected readonly title = signal('Dinoh');
     protected readonly sidebarOpen = signal(false);
     protected readonly submitOpen = signal(false);
+    protected readonly helpOpen = signal(false);
 
     protected readonly availableTags = [
         'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
@@ -81,6 +82,14 @@ export class App implements OnInit {
 
     protected closeSubmit() {
         this.submitOpen.set(false);
+    }
+
+    protected openHelp() {
+        this.helpOpen.set(true);
+    }
+
+    protected closeHelp() {
+        this.helpOpen.set(false);
     }
 
     protected toggleTag(tag: string) {
