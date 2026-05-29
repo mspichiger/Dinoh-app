@@ -20,7 +20,7 @@
 
     <div class="header-spacer"></div>
 
-    <button class="header-btn">
+    <button class="header-btn" (click)="openShare()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
             stroke-linecap="round" stroke-linejoin="round">
             <circle cx="18" cy="5" r="3" />
@@ -178,7 +178,7 @@
         <section class="top-rated" id="top-rated">
             <div class="section-head">
                 <h3>
-                    <img class="section-dino" src="dino-gold.svg" alt="" />
+                    <img class="section-dino" src="dino-gold.png" alt="" />
                     Top Rated
                 </h3>
                 <p>The highest rated apps based on cost/benefit ratio this week</p>
@@ -201,11 +201,11 @@
                     <p class="app-desc">{{ app.description }}</p>
                     <div class="rating">
                         <span class="dino-rating">
-                            <img class="rating-dino" src="dino-gold.svg" alt="" />
-                            <img class="rating-dino" src="dino-gold.svg" alt="" />
-                            <img class="rating-dino" src="dino-gold.svg" alt="" />
-                            <img class="rating-dino" src="dino-gold.svg" alt="" />
-                            <img class="rating-dino" src="dino-gold.svg" alt="" />
+                            <img class="rating-dino" src="dino-gold.png" alt="" />
+                            <img class="rating-dino" src="dino-gold.png" alt="" />
+                            <img class="rating-dino" src="dino-gold.png" alt="" />
+                            <img class="rating-dino" src="dino-gold.png" alt="" />
+                            <img class="rating-dino" src="dino-gold.png" alt="" />
                         </span>
                         <span class="rating-value">{{ app.rating.toFixed(1) }}</span>
                         <span class="rating-reviews">({{ app.reviews }})</span>
@@ -598,6 +598,183 @@
             <div class="help-contact">
                 <strong>Need more help?</strong> Reach out to the ITOT KAU team at
                 <a href="mailto:dinoh@roche.com">dinoh@roche.com</a>.
+            </div>
+        </div>
+    </div>
+</div>
+}
+@if (shareOpen()) {
+<div class="modal-backdrop" (click)="closeShare()">
+    <div class="modal share-modal" role="dialog" aria-modal="true" aria-labelledby="share-title"
+        (click)="$event.stopPropagation()">
+        <div class="help-head">
+            <div>
+                <h2 id="share-title" class="help-title">How to Share</h2>
+                <p class="share-subtitle">Follow these guides to share your apps and prompts with the Roche community.
+                </p>
+            </div>
+            <button class="modal-close" (click)="closeShare()" aria-label="Close">?</button>
+        </div>
+
+        <div class="share-tabs">
+            <button type="button" class="share-tab" [class.active]="shareTab() === 'apps'"
+                (click)="setShareTab('apps')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                </svg>
+                Apps
+            </button>
+            <button type="button" class="share-tab" [class.active]="shareTab() === 'prompts'"
+                (click)="setShareTab('prompts')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="8" y1="13" x2="16" y2="13" />
+                    <line x1="8" y1="17" x2="13" y2="17" />
+                </svg>
+                Prompts
+            </button>
+        </div>
+
+        <div class="help-body share-body">
+            @if (shareTab() === 'apps') {
+            <article class="share-step">
+                <div class="share-step-text">
+                    <div class="share-step-head">
+                        <span class="share-step-num">1</span>
+                        <h4>Deploy your app on CaaS</h4>
+                    </div>
+                    <p>Make sure your app is running on Roche's Container-as-a-Service platform and
+                        reachable through an internal URL like <code>https://your-app.roche.com</code>.</p>
+                </div>
+                <div class="share-mock mock-deploy">
+                    <div class="mock-window">
+                        <div class="mock-window-bar">
+                            <span></span><span></span><span></span>
+                            <div class="mock-url">https://your-app.roche.com</div>
+                        </div>
+                        <div class="mock-window-body">
+                            <div class="mock-bar"></div>
+                            <div class="mock-bar short"></div>
+                            <div class="mock-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="share-step">
+                <div class="share-step-text">
+                    <div class="share-step-head">
+                        <span class="share-step-num">2</span>
+                        <h4>Copy your app URL</h4>
+                    </div>
+                    <p>Open your app, copy the URL from the browser address bar and make sure it is
+                        accessible to your target audience inside Roche.</p>
+                </div>
+                <div class="share-mock mock-copy">
+                    <div class="mock-urlbar">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        <span>https://your-app.roche.com</span>
+                        <button class="mock-copy-btn">Copy</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="share-step">
+                <div class="share-step-text">
+                    <div class="share-step-head">
+                        <span class="share-step-num">3</span>
+                        <h4>Submit your app to DINOH</h4>
+                    </div>
+                    <p>Click <strong>+ Submit</strong> in the top bar, paste the URL, give your app a
+                        name, description, tags and confidentiality level � then hit Submit App.</p>
+                </div>
+                <div class="share-mock mock-submit">
+                    <div class="mock-submit-btn">+ Submit</div>
+                    <div class="mock-arrow">?</div>
+                    <div class="mock-form">
+                        <div class="mock-form-label">App URL *</div>
+                        <div class="mock-form-input">https://your-app.roche.com</div>
+                        <div class="mock-form-label">App Name *</div>
+                        <div class="mock-form-input">My Awesome App</div>
+                    </div>
+                </div>
+            </article>
+            } @else {
+            <article class="share-step">
+                <div class="share-step-text">
+                    <div class="share-step-head">
+                        <span class="share-step-num">1</span>
+                        <h4>Write and test your prompt</h4>
+                    </div>
+                    <p>Refine your prompt in Gemini, Google Docs or your preferred AI tool until you
+                        get consistent, high-quality results.</p>
+                </div>
+                <div class="share-mock mock-prompt">
+                    <div class="mock-chat">
+                        <div class="mock-chat-line">"Summarize the following report in 5 bullet points�"</div>
+                        <div class="mock-chat-reply">� Key finding 1<br />� Key finding 2<br />� �</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="share-step">
+                <div class="share-step-text">
+                    <div class="share-step-head">
+                        <span class="share-step-num">2</span>
+                        <h4>Copy the final prompt text</h4>
+                    </div>
+                    <p>Once it works well, copy the full prompt text including any placeholders like
+                        <code>{{ '{{topic}}' }}</code> or <code>{{ '{{document}}' }}</code>.
+                    </p>
+                </div>
+                <div class="share-mock mock-copy">
+                    <div class="mock-urlbar">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 12h6M9 16h4" />
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        </svg>
+                        <span>Summarize the following {{ '{{document}}' }}�</span>
+                        <button class="mock-copy-btn">Copy</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="share-step">
+                <div class="share-step-text">
+                    <div class="share-step-head">
+                        <span class="share-step-num">3</span>
+                        <h4>Submit it to the Prompt Library</h4>
+                    </div>
+                    <p>Use <strong>+ Submit</strong>, paste your prompt as description, tag it
+                        properly and choose the right function so colleagues can find it.</p>
+                </div>
+                <div class="share-mock mock-submit">
+                    <div class="mock-submit-btn">+ Submit</div>
+                    <div class="mock-arrow">?</div>
+                    <div class="mock-form">
+                        <div class="mock-form-label">Prompt *</div>
+                        <div class="mock-form-input">Summarize the following�</div>
+                        <div class="mock-form-label">Tags *</div>
+                        <div class="mock-form-input">Writing � Productivity</div>
+                    </div>
+                </div>
+            </article>
+            }
+
+            <div class="help-contact">
+                <strong>Questions or feedback?</strong>
+                <a href="mailto:dinoh@roche.com">dinoh@roche.com</a>
             </div>
         </div>
     </div>

@@ -35,6 +35,8 @@ export class App implements OnInit {
     protected readonly sidebarOpen = signal(false);
     protected readonly submitOpen = signal(false);
     protected readonly helpOpen = signal(false);
+    protected readonly shareOpen = signal(false);
+    protected readonly shareTab = signal<'apps' | 'prompts'>('apps');
 
     protected readonly availableTags = [
         'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
@@ -92,6 +94,18 @@ export class App implements OnInit {
         this.helpOpen.set(false);
     }
 
+    protected openShare() {
+        this.shareOpen.set(true);
+    }
+
+    protected closeShare() {
+        this.shareOpen.set(false);
+    }
+
+    protected setShareTab(tab: 'apps' | 'prompts') {
+        this.shareTab.set(tab);
+    }
+
     protected toggleTag(tag: string) {
         const i = this.submitForm.tags.indexOf(tag);
         if (i >= 0) {
@@ -144,7 +158,7 @@ export class App implements OnInit {
 
     protected readonly browseItems = [
         { label: 'Prompt Library', icon: '📄', iconImg: null as string | null, badge: 7 as number | null, active: false, target: 'explore' },
-        { label: 'Top Rated', icon: '', iconImg: 'dino-gold.svg', badge: null as number | null, active: false, target: 'top-rated' }
+        { label: 'Top Rated', icon: '', iconImg: 'dino-gold.png', badge: null as number | null, active: false, target: 'top-rated' }
     ];
 
     protected scrollToSection(id: string) {
