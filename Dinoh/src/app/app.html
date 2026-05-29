@@ -79,7 +79,8 @@
         </button>
 
         <nav class="nav">
-            <a class="nav-item" [class.active]="homeItem.active" [title]="homeItem.label">
+            <a class="nav-item" [class.active]="homeItem.active" [title]="homeItem.label"
+                (click)="scrollToSection(homeItem.target)" style="cursor:pointer">
                 <span class="nav-icon">{{ homeItem.icon }}</span>
                 <span class="nav-label">{{ homeItem.label }}</span>
             </a>
@@ -88,7 +89,8 @@
 
             <div class="nav-section">Browse</div>
             @for (item of browseItems; track item.label) {
-            <a class="nav-item" [class.active]="item.active" [title]="item.label">
+            <a class="nav-item" [class.active]="item.active" [title]="item.label" (click)="scrollToSection(item.target)"
+                style="cursor:pointer">
                 @if (item.iconImg) {
                 <span class="nav-icon"><img [src]="item.iconImg" [alt]="item.label" class="nav-icon-img" /></span>
                 } @else {
@@ -173,7 +175,7 @@
             }
         </section>
 
-        <section class="top-rated">
+        <section class="top-rated" id="top-rated">
             <div class="section-head">
                 <h3>
                     <img class="section-dino" src="dino-gold.svg" alt="" />
@@ -223,7 +225,7 @@
             </div>
         </section>
 
-        <section class="explore">
+        <section class="explore" id="explore">
             <div class="explore-head">
                 <div class="explore-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

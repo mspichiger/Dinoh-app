@@ -130,13 +130,24 @@ export class App implements OnInit {
     }
 
     protected readonly homeItem = {
-        label: 'Home', icon: '🏠', active: true
+        label: 'Home', icon: '🏠', active: true, target: 'top'
     };
 
     protected readonly browseItems = [
-        { label: 'Prompt Library', icon: '📄', iconImg: null as string | null, badge: 7 as number | null, active: false },
-        { label: 'Top Rated', icon: '', iconImg: 'dino-gold.svg', badge: null as number | null, active: false }
+        { label: 'Prompt Library', icon: '📄', iconImg: null as string | null, badge: 7 as number | null, active: false, target: 'explore' },
+        { label: 'Top Rated', icon: '', iconImg: 'dino-gold.svg', badge: null as number | null, active: false, target: 'top-rated' }
     ];
+
+    protected scrollToSection(id: string) {
+        if (!this.isBrowser) return;
+        if (id === 'top') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        this.closeSidebar();
+    }
 
     protected readonly categoryItems = [
         { label: 'Coding', icon: '💻' },
