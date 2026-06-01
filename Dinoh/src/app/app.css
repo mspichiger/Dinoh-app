@@ -825,21 +825,36 @@
 .explore-search {
   position: relative;
   background: #fff;
-  border-radius: 8px;
-  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  border: 1px solid #e8e0dc;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.explore-search:focus-within {
+  border-color: #0B41CD;
+  box-shadow: 0 0 0 2px rgba(11, 65, 205, 0.2);
 }
 .explore-search input {
   width: 100%;
   border: none;
   background: transparent;
-  padding: 16px 18px 16px 48px;
+  padding: 14px 40px 14px 44px;
   font-size: 14px;
-  border-radius: 8px;
+  border-radius: 12px;
   outline: none;
+  color: #1F1F1F;
 }
+.explore-search input::placeholder { color: rgba(2, 35, 102, 0.4); }
 .explore-search .search-icon {
-  position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
-  color: var(--gray-500);
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(2, 35, 102, 0.4);
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
 }
 
 .explore-toolbar {
