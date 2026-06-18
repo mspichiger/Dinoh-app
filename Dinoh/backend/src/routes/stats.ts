@@ -1,8 +1,13 @@
 import { Router } from 'express';
-import { stats } from '../data/store';
+import { pool } from '../db/pool';
 
 export const statsRouter = Router();
 
-statsRouter.get('/', (_req, res) => {
-    res.json(stats);
+statsRouter.get('/', async (_req, res, next) => {
+    try {
+        const { rows } = await pool.query(
+            'SELECT label, value, delta, icon, accent FROM stats ORDER BY sort_order ASC'
+        );
+        res.json(rows);
+    } catch (err) { next(err); }
 });

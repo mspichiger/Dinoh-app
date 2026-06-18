@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { randomUUID } from 'crypto';
-import { submissions } from '../data/store';
+import { pool } from '../db/pool';
 import { Confidentiality, SubmittedApp } from '../types';
 
 export const submitRouter = Router();
@@ -11,11 +11,29 @@ function isString(v: unknown): v is string {
     return typeof v === 'string' && v.trim().length > 0;
 }
 
-submitRouter.get('/', (_req, res) => {
-    res.json(submissions);
+function rowToSubmission(r: any): SubmittedApp {
+    return {
+        id: r.id,
+        url: r.url,
+        name: r.name,
+        description: r.description,
+        tags: r.tags ?? [],
+        function: r.function,
+        department: r.department ?? '',
+        confidentiality: r.confidentiality,
+        submittedBy: { name: r.submitter_name, email: r.submitter_email },
+        submittedAt: new Date(r.submitted_at).toISOString()
+    };
+}
+
+submitRouter.get('/', async (_req, res, next) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM submissions ORDER BY submitted_at DESC');
+        res.json(rows.map(rowToSubmission));
+    } catch (err) { next(err); }
 });
 
-submitRouter.post('/', (req, res) => {
+submitRouter.post('/', async (req, res, next) => {
     const body = req.body ?? {};
     const {
         url, name, description, tags, function: fn,
@@ -32,23 +50,22 @@ submitRouter.post('/', (req, res) => {
         return res.status(400).json({ error: 'Invalid confidentiality level' });
     }
 
-    const submitter = submittedBy && isString(submittedBy.name) && isString(submittedBy.email)
-        ? { name: submittedBy.name, email: submittedBy.email }
-        : { name: 'Anonymous', email: 'anonymous@roche.com' };
+    const submitterName = submittedBy && isString(submittedBy.name) ? submittedBy.name : 'Anonymous';
+    const submitterEmail = submittedBy && isString(submittedBy.email) ? submittedBy.email : 'anonymous@roche.com';
 
-    const entry: SubmittedApp = {
-        id: randomUUID(),
-        url,
-        name,
-        description,
-        tags,
-        function: fn,
-        department: isString(department) ? department : '',
-        confidentiality,
-        submittedBy: submitter,
-        submittedAt: new Date().toISOString()
-    };
-
-    submissions.push(entry);
-    res.status(201).json(entry);
+    try {
+        const id = randomUUID();
+        const { rows } = await pool.query(
+            `INSERT INTO submissions
+                (id, url, name, description, tags, function, department, confidentiality, submitter_name, submitter_email)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+             RETURNING *`,
+            [
+                id, url, name, description, tags, fn,
+                isString(department) ? department : '',
+                confidentiality, submitterName, submitterEmail
+            ]
+        );
+        res.status(201).json(rowToSubmission(rows[0]));
+    } catch (err) { next(err); }
 });

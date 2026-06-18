@@ -1,20 +1,47 @@
 import { Router } from 'express';
-import { topRated } from '../data/store';
+import { pool } from '../db/pool';
+import { AppCard } from '../types';
 
 export const appsRouter = Router();
 
-appsRouter.get('/', (_req, res) => {
-    res.json(topRated);
+function rowToApp(r: any): AppCard {
+    return {
+        id: r.id,
+        name: r.name,
+        author: r.author,
+        description: r.description,
+        rating: Number(r.rating),
+        reviews: Number(r.reviews),
+        value: Number(r.value),
+        users: Number(r.users),
+        tags: r.tags ?? [],
+        rank: Number(r.rank),
+        emoji: r.emoji
+    };
+}
+
+appsRouter.get('/', async (_req, res, next) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM apps ORDER BY rank ASC');
+        res.json(rows.map(rowToApp));
+    } catch (err) { next(err); }
 });
 
-appsRouter.get('/top-rated', (_req, res) => {
-    res.json(topRated);
+appsRouter.get('/top-rated', async (_req, res, next) => {
+    try {
+        const { rows } = await pool.query(
+            'SELECT * FROM apps ORDER BY rating DESC, reviews DESC, rank ASC'
+        );
+        res.json(rows.map(rowToApp));
+    } catch (err) { next(err); }
 });
 
-appsRouter.get('/:id', (req, res) => {
-    const app = topRated.find(a => a.id === req.params.id);
-    if (!app) {
-        return res.status(404).json({ error: 'App not found' });
-    }
-    res.json(app);
+appsRouter.get('/:id', async (req, res, next) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM apps WHERE id = $1', [req.params.id]);
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'App not found' });
+        }
+        res.json(rowToApp(rows[0]));
+    } catch (err) { next(err); }
 });
