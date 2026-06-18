@@ -208,7 +208,7 @@ export class App implements OnInit {
         { label: 'Coding', icon: '💻', tags: ['Coding'] },
         { label: 'Writing & Creative', icon: '✍️', tags: ['Writing', 'Creative'] },
         { label: 'Productivity', icon: '⚡', tags: ['Productivity'] },
-        { label: 'Data & Analytics', icon: '📊', tags: ['Data', 'Biostatistics'] },
+        { label: 'Data & Analytics', icon: '📊', tags: ['Data', 'Analytics', 'Biostatistics'] },
         { label: 'Education', icon: '🎓', tags: ['Education', 'Training'] },
         { label: 'Drug Development', icon: '💊', tags: ['Drug Discovery', 'PKPD Modeling', 'Computational Toxicology'] },
         { label: 'Clinical & Regulatory', icon: '🩺', tags: ['Clinical', 'Regulatory', 'Compliance'] },

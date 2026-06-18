@@ -1,1 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* =========================================================================
+   Roche Sans — offizielle RDS-Schrift
+   Lege die .woff2 Files in Dinoh/public/fonts/ ab (siehe public/fonts/README.md)
+   ========================================================================= */
+@font-face {
+  font-family: 'Roche Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/RocheSans-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roche Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/RocheSans-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roche Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/RocheSans-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roche Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/RocheSans-Bold.woff2') format('woff2');
+}
+
+/* Optional: Roche Serif für Headlines */
+@font-face {
+  font-family: 'Roche Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/RocheSerif-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roche Serif';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/RocheSerif-Bold.woff2') format('woff2');
+}
+
+html, body {
+  font-family: 'Roche Sans', 'Helvetica Neue', Helvetica, Arial,
+               -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
