@@ -37,11 +37,12 @@ export class App implements OnInit {
     protected readonly helpOpen = signal(false);
     protected readonly shareOpen = signal(false);
     protected readonly shareTab = signal<'apps' | 'prompts'>('apps');
-    protected readonly view = signal<'home' | 'prompts' | 'top-rated'>('home');
+    protected readonly view = signal<'home' | 'prompts' | 'top-rated' | 'category'>('home');
     protected readonly promptsSearch = signal('');
     protected readonly topRatedSearch = signal('');
     protected readonly topRatedFilter = signal<'all' | 'APP' | 'PROMPT'>('all');
     protected readonly categoryFilter = signal<string | null>(null);
+    protected readonly categorySearch = signal('');
     protected readonly selectedApp = signal<AppCard | null>(null);
     protected readonly selectedExplore = signal<ExploreItem | null>(null);
 
@@ -218,15 +219,20 @@ export class App implements OnInit {
     protected selectCategory(label: string) {
         const next = this.categoryFilter() === label ? null : label;
         this.categoryFilter.set(next);
+        this.categorySearch.set('');
         if (next !== null) {
-            this.view.set('top-rated');
+            this.view.set('category');
             if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            this.view.set('home');
         }
         this.closeSidebar();
     }
 
     protected clearCategory() {
         this.categoryFilter.set(null);
+        this.categorySearch.set('');
+        this.view.set('home');
     }
 
     protected openAppDetails(app: AppCard) {
@@ -287,17 +293,11 @@ export class App implements OnInit {
     });
 
     protected readonly filteredTopRated = computed<ExploreItem[]>(() => {
+        // Top Rated ist bewusst NICHT kategoriefiltert — eigene Ansicht
         const q = this.topRatedSearch().toLowerCase().trim();
         const f = this.topRatedFilter();
-        const catLabel = this.categoryFilter();
-        const catTags = catLabel
-            ? (this.categoryItems.find(c => c.label === catLabel)?.tags ?? []).map(t => t.toLowerCase())
-            : [];
         let items = [...this.exploreItems()].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
         if (f !== 'all') items = items.filter(i => i.type === f);
-        if (catTags.length) {
-            items = items.filter(i => i.tags.some(t => catTags.includes(t.toLowerCase())));
-        }
         if (q) items = items.filter(i =>
             i.title.toLowerCase().includes(q) ||
             i.description.toLowerCase().includes(q) ||
@@ -306,4 +306,28 @@ export class App implements OnInit {
         );
         return items;
     });
+
+    private categoryTags(): string[] {
+        const label = this.categoryFilter();
+        if (!label) return [];
+        return (this.categoryItems.find(c => c.label === label)?.tags ?? []).map(t => t.toLowerCase());
+    }
+
+    private readonly categoryMatched = computed<ExploreItem[]>(() => {
+        const tags = this.categoryTags();
+        if (!tags.length) return [];
+        const q = this.categorySearch().toLowerCase().trim();
+        let items = this.exploreItems().filter(i => i.tags.some(t => tags.includes(t.toLowerCase())));
+        if (q) items = items.filter(i =>
+            i.title.toLowerCase().includes(q) ||
+            i.description.toLowerCase().includes(q) ||
+            i.author.toLowerCase().includes(q) ||
+            i.tags.some(t => t.toLowerCase().includes(q))
+        );
+        return items;
+    });
+
+    protected readonly categoryApps = computed<ExploreItem[]>(() => this.categoryMatched().filter(i => i.type === 'APP'));
+    protected readonly categoryPrompts = computed<ExploreItem[]>(() => this.categoryMatched().filter(i => i.type === 'PROMPT'));
+    protected readonly categoryTotal = computed<number>(() => this.categoryMatched().length);
 }
