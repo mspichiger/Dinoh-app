@@ -41,6 +41,9 @@ export class App implements OnInit {
     protected readonly promptsSearch = signal('');
     protected readonly topRatedSearch = signal('');
     protected readonly topRatedFilter = signal<'all' | 'APP' | 'PROMPT'>('all');
+    protected readonly categoryFilter = signal<string | null>(null);
+    protected readonly selectedApp = signal<AppCard | null>(null);
+    protected readonly selectedExplore = signal<ExploreItem | null>(null);
 
     protected readonly availableTags = [
         'Automation', 'Biostatistics', 'Clinical', 'Coding', 'Collaboration', 'Commercial',
@@ -202,15 +205,45 @@ export class App implements OnInit {
     }
 
     protected readonly categoryItems = [
-        { label: 'Coding', icon: '💻' },
-        { label: 'Writing & Creative', icon: '✍️' },
-        { label: 'Productivity', icon: '⚡' },
-        { label: 'Data & Analytics', icon: '📊' },
-        { label: 'Education', icon: '🎓' },
-        { label: 'Drug Development', icon: '💊' },
-        { label: 'Clinical & Regulatory', icon: '🩺' },
-        { label: 'Commercial', icon: '💼' }
+        { label: 'Coding', icon: '💻', tags: ['Coding'] },
+        { label: 'Writing & Creative', icon: '✍️', tags: ['Writing', 'Creative'] },
+        { label: 'Productivity', icon: '⚡', tags: ['Productivity'] },
+        { label: 'Data & Analytics', icon: '📊', tags: ['Data', 'Biostatistics'] },
+        { label: 'Education', icon: '🎓', tags: ['Education', 'Training'] },
+        { label: 'Drug Development', icon: '💊', tags: ['Drug Discovery', 'PKPD Modeling', 'Computational Toxicology'] },
+        { label: 'Clinical & Regulatory', icon: '🩺', tags: ['Clinical', 'Regulatory', 'Compliance'] },
+        { label: 'Commercial', icon: '💼', tags: ['Commercial', 'Marketing'] }
     ];
+
+    protected selectCategory(label: string) {
+        const next = this.categoryFilter() === label ? null : label;
+        this.categoryFilter.set(next);
+        if (next !== null) {
+            this.view.set('top-rated');
+            if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        this.closeSidebar();
+    }
+
+    protected clearCategory() {
+        this.categoryFilter.set(null);
+    }
+
+    protected openAppDetails(app: AppCard) {
+        this.selectedApp.set(app);
+    }
+
+    protected closeAppDetails() {
+        this.selectedApp.set(null);
+    }
+
+    protected openExploreDetails(item: ExploreItem) {
+        this.selectedExplore.set(item);
+    }
+
+    protected closeExploreDetails() {
+        this.selectedExplore.set(null);
+    }
 
     protected readonly stats = signal<StatCard[]>([]);
 
@@ -256,8 +289,15 @@ export class App implements OnInit {
     protected readonly filteredTopRated = computed<ExploreItem[]>(() => {
         const q = this.topRatedSearch().toLowerCase().trim();
         const f = this.topRatedFilter();
+        const catLabel = this.categoryFilter();
+        const catTags = catLabel
+            ? (this.categoryItems.find(c => c.label === catLabel)?.tags ?? []).map(t => t.toLowerCase())
+            : [];
         let items = [...this.exploreItems()].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
         if (f !== 'all') items = items.filter(i => i.type === f);
+        if (catTags.length) {
+            items = items.filter(i => i.tags.some(t => catTags.includes(t.toLowerCase())));
+        }
         if (q) items = items.filter(i =>
             i.title.toLowerCase().includes(q) ||
             i.description.toLowerCase().includes(q) ||

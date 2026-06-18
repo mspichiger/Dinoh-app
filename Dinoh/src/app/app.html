@@ -128,7 +128,9 @@
 
             <div class="nav-section">Categories</div>
             @for (cat of categoryItems; track cat.label) {
-            <a class="nav-item nav-item-sub" [title]="cat.label">
+            <a class="nav-item nav-item-sub" [class.active]="categoryFilter() === cat.label" [title]="cat.label"
+                role="button" tabindex="0" (click)="selectCategory(cat.label)"
+                (keydown.enter)="selectCategory(cat.label)" (keydown.space)="selectCategory(cat.label)">
                 <span class="nav-label">{{ cat.label }}</span>
             </a>
             }
@@ -336,7 +338,7 @@
                         <span class="tag">{{ t }}</span>
                         }
                     </div>
-                    <button class="view-btn">View Details ↗</button>
+                    <button class="view-btn" (click)="openAppDetails(app)">View Details ↗</button>
                 </article>
                 }
             </div>
@@ -459,7 +461,7 @@
                                 <span class="rating-num muted">— (0)</span>
                                 }
                             </div>
-                            <button class="open-btn">
+                            <button class="open-btn" (click)="openExploreDetails(item)">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -657,11 +659,20 @@
             </div>
         </section>
 
+        @if (categoryFilter() !== null) {
+        <section class="category-filter-bar">
+            <span class="category-filter-label">Category:</span>
+            <button class="category-filter-chip" (click)="clearCategory()" aria-label="Clear category filter">
+                {{ categoryFilter() }}
+                <span class="category-filter-x" aria-hidden="true">✕</span>
+            </button>
+        </section>
+        }
+
         <section class="explore toprated-grid-section">
             <div class="explore-grid">
                 @for (item of filteredTopRated(); track item.title; let i = $index) {
                 <article class="explore-card toprated-card">
-                    <span class="rank-badge">{{ i + 1 }}</span>
                     <div class="explore-card-head" [attr.data-type]="item.type">
                         <span class="type-badge">{{ item.type }}</span>
                         <div class="head-icon">
@@ -724,7 +735,7 @@
                                 <span class="rating-num muted">— (0)</span>
                                 }
                             </div>
-                            <button class="open-btn">
+                            <button class="open-btn" (click)="openExploreDetails(item)">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -744,6 +755,116 @@
         }
     </main>
 </div>
+
+@if (selectedApp(); as app) {
+<div class="modal-backdrop" (click)="closeAppDetails()">
+    <div class="modal details-modal" role="dialog" aria-modal="true" aria-labelledby="details-app-title"
+        (click)="$event.stopPropagation()">
+        <button class="modal-close floating" (click)="closeAppDetails()" aria-label="Close">✕</button>
+
+        <div class="details-head">
+            <div class="details-avatar">{{ app.emoji }}</div>
+            <div class="details-head-text">
+                <div class="details-badge">🏅 GOLDEN TIER &nbsp;·&nbsp; #{{ app.rank }}</div>
+                <h2 id="details-app-title" class="details-title">{{ app.name }}</h2>
+                <div class="details-author">by {{ app.author }}</div>
+            </div>
+        </div>
+
+        <p class="details-desc">{{ app.description }}</p>
+
+        <div class="details-stats">
+            <div class="details-stat">
+                <div class="details-stat-label">Rating</div>
+                <div class="details-stat-value">⭐ {{ app.rating.toFixed(1) }} <span class="details-muted">({{
+                        app.reviews }} reviews)</span></div>
+            </div>
+            <div class="details-stat">
+                <div class="details-stat-label">Value</div>
+                <div class="details-stat-value">💲 {{ app.value }} / 10</div>
+            </div>
+            <div class="details-stat">
+                <div class="details-stat-label">Users</div>
+                <div class="details-stat-value">👥 {{ app.users }}</div>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <div class="details-section-label">Tags</div>
+            <div class="details-tags">
+                @for (t of app.tags; track t) {
+                <span class="tag">{{ t }}</span>
+                }
+            </div>
+        </div>
+
+        <div class="details-actions">
+            <button class="view-btn" type="button" (click)="closeAppDetails()">Close</button>
+        </div>
+    </div>
+</div>
+}
+
+@if (selectedExplore(); as item) {
+<div class="modal-backdrop" (click)="closeExploreDetails()">
+    <div class="modal details-modal" role="dialog" aria-modal="true" aria-labelledby="details-explore-title"
+        (click)="$event.stopPropagation()">
+        <button class="modal-close floating" (click)="closeExploreDetails()" aria-label="Close">✕</button>
+
+        <div class="details-head">
+            <div class="details-avatar">{{ item.type === 'PROMPT' ? '📄' : '🧩' }}</div>
+            <div class="details-head-text">
+                <div class="details-badge">{{ item.type }}</div>
+                <h2 id="details-explore-title" class="details-title">{{ item.title }}</h2>
+                <a class="details-author" href="mailto:{{ item.author }}">by {{ item.author }}</a>
+            </div>
+        </div>
+
+        <p class="details-desc">{{ item.description }}</p>
+
+        <div class="details-stats">
+            <div class="details-stat">
+                <div class="details-stat-label">Rating</div>
+                <div class="details-stat-value">
+                    @if (item.reviews > 0) {
+                    ⭐ {{ item.rating.toFixed(1) }} <span class="details-muted">({{ item.reviews }} reviews)</span>
+                    } @else {
+                    <span class="details-muted">No reviews yet</span>
+                    }
+                </div>
+            </div>
+            <div class="details-stat">
+                <div class="details-stat-label">Bookmarks</div>
+                <div class="details-stat-value">🔖 {{ item.bookmarks }}</div>
+            </div>
+            <div class="details-stat">
+                <div class="details-stat-label">Confidentiality</div>
+                <div class="details-stat-value">
+                    <span class="card-conf" [class.c1]="item.confidentiality === 'C1'"
+                        [class.c2]="item.confidentiality === 'C2'" [class.c3]="item.confidentiality === 'C3'"
+                        [class.c4]="item.confidentiality === 'C4'">{{ item.confidentiality }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <div class="details-section-label">Tags</div>
+            <div class="details-tags">
+                @for (t of item.tags; track t) {
+                <span class="tag">{{ t }}</span>
+                }
+                @if (item.extraTags > 0) {
+                <span class="tag">+{{ item.extraTags }}</span>
+                }
+            </div>
+        </div>
+
+        <div class="details-actions">
+            <button class="view-btn" type="button" (click)="closeExploreDetails()">Close</button>
+        </div>
+    </div>
+</div>
+}
 
 @if (submitOpen()) {
 <div class="modal-backdrop" (click)="closeSubmit()">
