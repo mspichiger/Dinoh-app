@@ -37,8 +37,10 @@ export class App implements OnInit {
     protected readonly helpOpen = signal(false);
     protected readonly shareOpen = signal(false);
     protected readonly shareTab = signal<'apps' | 'prompts'>('apps');
-    protected readonly view = signal<'home' | 'prompts' | 'top-rated' | 'category'>('home');
+    protected readonly view = signal<'home' | 'prompts' | 'top-rated' | 'category' | 'gems' | 'notebooks'>('home');
     protected readonly promptsSearch = signal('');
+    protected readonly gemsSearch = signal('');
+    protected readonly notebooksSearch = signal('');
     protected readonly topRatedSearch = signal('');
     protected readonly topRatedFilter = signal<'all' | 'APP' | 'PROMPT'>('all');
     protected readonly categoryFilter = signal<string | null>(null);
@@ -164,18 +166,39 @@ export class App implements OnInit {
         label: 'Home', icon: '🏠', active: true, target: 'top'
     };
 
-    protected readonly browseItems = [
-        { label: 'Prompt Library', icon: '📄', iconImg: null as string | null, badge: 7 as number | null, active: false, target: 'prompts' },
-        { label: 'Top Rated', icon: '', iconImg: 'dino-gold.png', badge: null as number | null, active: false, target: 'top-rated' }
-    ];
+    protected readonly browseItems = computed(() => {
+        const items = this.exploreItems();
+        const appCount = items.filter(i => i.type === 'APP').length;
+        const promptCount = items.filter(i => i.type === 'PROMPT').length;
+        return [
+            { label: 'Gems', iconImg: null as string | null, badge: appCount as number | null, target: 'gems' },
+            { label: 'Notebooks', iconImg: null as string | null, badge: 0 as number | null, target: 'notebooks' },
+            { label: 'Prompt Library', iconImg: null as string | null, badge: promptCount as number | null, target: 'prompts' },
+            { label: 'Top Rated', iconImg: 'dino-gold.png' as string | null, badge: null as number | null, target: 'top-rated' }
+        ];
+    });
 
     protected isNavActive(target: string): boolean {
+        if (this.view() === 'gems') return target === 'gems';
+        if (this.view() === 'notebooks') return target === 'notebooks';
         if (this.view() === 'prompts') return target === 'prompts';
         if (this.view() === 'top-rated') return target === 'top-rated';
         return target === 'top';
     }
 
     protected scrollToSection(id: string) {
+        if (id === 'gems') {
+            this.view.set('gems');
+            if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
+            this.closeSidebar();
+            return;
+        }
+        if (id === 'notebooks') {
+            this.view.set('notebooks');
+            if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
+            this.closeSidebar();
+            return;
+        }
         if (id === 'prompts') {
             this.view.set('prompts');
             if (this.isBrowser) window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -282,6 +305,20 @@ export class App implements OnInit {
             i.tags.some(t => t.toLowerCase().includes(q))
         );
     });
+
+    protected readonly filteredGems = computed<ExploreItem[]>(() => {
+        const q = this.gemsSearch().toLowerCase().trim();
+        const items = this.exploreItems().filter(i => i.type === 'APP');
+        if (!q) return items;
+        return items.filter(i =>
+            i.title.toLowerCase().includes(q) ||
+            i.description.toLowerCase().includes(q) ||
+            i.author.toLowerCase().includes(q) ||
+            i.tags.some(t => t.toLowerCase().includes(q))
+        );
+    });
+
+    protected readonly filteredNotebooks = computed<ExploreItem[]>(() => []);
 
     protected readonly topRatedCounts = computed(() => {
         const items = this.exploreItems();
