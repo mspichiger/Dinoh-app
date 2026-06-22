@@ -40,9 +40,20 @@
   min-height: 100vh;
   color: var(--rds-navy);
   -webkit-font-smoothing: antialiased;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 * { box-sizing: border-box; }
+
+/* Restore native cursors only where they belong */
+input, textarea, [contenteditable="true"] {
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
+}
+a, button, [role="button"], label[for], summary { cursor: pointer; }
 
 .layout {
   display: grid;
