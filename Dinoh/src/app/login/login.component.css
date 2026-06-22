@@ -1,13 +1,19 @@
 :host {
     display: block;
-    width: 100%;
-    min-height: 100vh;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1000;
 }
 
 .login-shell {
     display: grid;
-    grid-template-columns: 1fr 540px;
-    min-height: 100vh;
+    grid-template-columns: 1fr 420px;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     background: #0b1e6b;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -39,13 +45,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
-    padding: 40px;
+    gap: 24px;
+    padding: 32px;
     text-align: center;
 }
 
 .hero-dino {
-    width: min(60%, 320px);
+    width: min(45%, 220px);
     height: auto;
     filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.45));
     animation: float 6s ease-in-out infinite;
@@ -69,10 +75,10 @@
 }
 
 .hero-title {
-    font-size: 48px;
+    font-size: 36px;
     font-weight: 800;
     letter-spacing: -0.02em;
-    margin: 0 0 10px;
+    margin: 0 0 8px;
     background: linear-gradient(180deg, #ffffff 0%, #c7d2fe 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -82,42 +88,45 @@
 .hero-sub {
     margin: 0;
     color: #cbd5e1;
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 .login-panel {
     background: linear-gradient(180deg, #1e3a8a 0%, #2563eb 100%);
     color: #f8fafc;
-    padding: 56px 48px 40px;
+    padding: 24px 28px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    overflow-y: auto;
+    justify-content: center;
+    overflow: hidden;
+    height: 100vh;
+    min-height: 0;
 }
 
 .brand-mark {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     background: #ffffff;
     display: grid;
     place-items: center;
-    margin: 0 auto 24px;
+    margin: 0 auto 16px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .brand-mark img {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
 }
 
 .welcome-title {
     text-align: center;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     letter-spacing: -0.01em;
 }
 
@@ -127,31 +136,31 @@
 
 .welcome-sub {
     text-align: center;
-    margin: 0 0 32px;
+    margin: 0 0 20px;
     color: #c7d2fe;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .signin-card {
     background: #ffffff;
     color: #0f172a;
-    border-radius: 16px;
-    padding: 32px 28px;
+    border-radius: 14px;
+    padding: 24px 22px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
 .signin-card h2 {
-    margin: 0 0 6px;
-    font-size: 20px;
+    margin: 0 0 4px;
+    font-size: 17px;
     text-align: center;
     color: #0f172a;
 }
 
 .signin-sub {
-    margin: 0 0 24px;
+    margin: 0 0 18px;
     text-align: center;
     color: #475569;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .google-btn-host {
@@ -163,12 +172,12 @@
 
 .signin-btn {
     width: 100%;
-    height: 48px;
+    height: 42px;
     border: none;
     border-radius: 10px;
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     color: #ffffff;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
@@ -177,7 +186,7 @@
     gap: 10px;
     transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
     box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .signin-btn:hover {
@@ -194,7 +203,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin: 24px 0;
+    margin: 14px 0;
     color: #94a3b8;
     font-size: 11px;
     letter-spacing: 0.08em;
@@ -211,17 +220,17 @@
 .benefits {
     list-style: none;
     padding: 0;
-    margin: 0 0 24px;
+    margin: 0 0 14px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
 .benefits li {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
+    font-size: 12px;
     color: #334155;
 }
 
@@ -232,15 +241,15 @@
 
 .footer-notes {
     border-top: 1px solid #e2e8f0;
-    padding-top: 20px;
+    padding-top: 12px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 8px;
 }
 
 .note {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     align-items: flex-start;
 }
 
@@ -248,18 +257,21 @@
     color: #475569;
     margin-top: 2px;
     flex-shrink: 0;
+    width: 16px;
+    height: 16px;
 }
 
 .note-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #0f172a;
 }
 
 .note-text {
-    font-size: 12px;
+    font-size: 11px;
     color: #64748b;
-    margin-top: 2px;
+    margin-top: 1px;
+    line-height: 1.4;
 }
 
 @media (max-width: 960px) {
@@ -270,4 +282,28 @@
     .login-hero {
         display: none;
     }
+
+    .login-panel {
+        padding: 20px 18px;
+    }
+}
+
+@media (max-height: 760px) {
+    .hero-dino { width: min(32%, 140px); }
+    .hero-title { font-size: 26px; }
+    .login-panel { padding: 14px 22px; }
+    .brand-mark { width: 32px; height: 32px; margin-bottom: 8px; }
+    .brand-mark img { width: 20px; height: 20px; }
+    .welcome-title { font-size: 18px; margin-bottom: 4px; }
+    .welcome-sub { margin-bottom: 12px; font-size: 12px; }
+    .signin-card { padding: 14px 16px; }
+    .signin-card h2 { font-size: 15px; }
+    .signin-sub { margin-bottom: 12px; font-size: 11px; }
+    .signin-btn { height: 38px; font-size: 13px; }
+    .divider { margin: 10px 0; }
+    .benefits { margin-bottom: 10px; gap: 6px; }
+    .benefits li { font-size: 11.5px; }
+    .footer-notes { padding-top: 10px; gap: 6px; }
+    .note-title { font-size: 11.5px; }
+    .note-text { font-size: 10.5px; }
 }
