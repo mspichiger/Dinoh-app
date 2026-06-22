@@ -1,22 +1,39 @@
-import { Component, OnInit, PLATFORM_ID, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService, AppCard, ExploreItem, StatCard } from './services/api.service';
+import { AuthService } from './auth/auth.service';
+import { LoginComponent } from './login/login.component';
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, LoginComponent],
     templateUrl: './app.html',
     styleUrl: './app.css'
 })
 export class App implements OnInit {
     private readonly api = inject(ApiService);
     private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+    protected readonly auth = inject(AuthService);
+
+    protected readonly currentUser = computed(() => {
+        const u = this.auth.user();
+        return u ? { name: u.name, email: u.email, picture: u.picture, initials: this.auth.initials() } : null;
+    });
+
+    constructor() {
+        effect(() => {
+            if (this.isBrowser && this.auth.isAuthenticated()) {
+                this.loadData();
+            }
+        });
+    }
 
     ngOnInit(): void {
-        // Skip HTTP during SSR/prerender — data will be fetched on the client.
-        if (!this.isBrowser) return;
+        // Data loading is triggered by the auth effect once the user is signed in.
+    }
 
+    private loadData(): void {
         this.api.getStats().subscribe({
             next: data => this.stats.set(data),
             error: err => console.error('Failed to load stats', err)
@@ -29,6 +46,10 @@ export class App implements OnInit {
             next: data => this.exploreItems.set(data),
             error: err => console.error('Failed to load explore items', err)
         });
+    }
+
+    protected logout(): void {
+        this.auth.logout();
     }
 
     protected readonly title = signal('Dinoh');
@@ -61,11 +82,6 @@ export class App implements OnInit {
     ];
 
     protected readonly confidentialityLevels = ['C1', 'C2', 'C3', 'C4'];
-
-    protected readonly currentUser = {
-        name: 'Mara Spichiger',
-        email: 'mara.spichiger@roche.com'
-    };
 
     protected readonly maxDescription = 300;
     protected readonly maxTags = 5;
@@ -136,9 +152,10 @@ export class App implements OnInit {
 
     protected handleSubmit() {
         if (!this.isFormValid()) return;
+        const u = this.currentUser();
         const payload = {
             ...this.submitForm,
-            submittedBy: this.currentUser
+            submittedBy: u ? { name: u.name, email: u.email } : { name: 'Anonymous', email: 'anonymous@roche.com' }
         };
         this.api.submitApp(payload).subscribe({
             next: () => {
