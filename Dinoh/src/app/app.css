@@ -321,10 +321,10 @@ a, button, [role="button"], label[for], summary { cursor: pointer; }
 .logout-btn:hover { color: var(--gray-900); }
 
 .roche-logo {
-  height: 22px;
+  height: 32px;
   width: auto;
   margin-left: 4px;
-  padding-left: 10px;
+  padding-left: 12px;
   border-left: 1px solid #e8e0dc;
   flex-shrink: 0;
 }
