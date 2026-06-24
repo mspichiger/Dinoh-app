@@ -54,11 +54,8 @@ export class App implements OnInit {
 
     protected readonly title = signal('Dinoh');
     protected readonly sidebarOpen = signal(false);
-    protected readonly submitOpen = signal(false);
-    protected readonly helpOpen = signal(false);
-    protected readonly shareOpen = signal(false);
     protected readonly shareTab = signal<'apps' | 'prompts'>('apps');
-    protected readonly view = signal<'home' | 'prompts' | 'top-rated' | 'category' | 'gems' | 'notebooks'>('home');
+    protected readonly view = signal<'home' | 'prompts' | 'top-rated' | 'category' | 'gems' | 'notebooks' | 'submit' | 'help' | 'share'>('home');
     protected readonly promptsSearch = signal('');
     protected readonly gemsSearch = signal('');
     protected readonly notebooksSearch = signal('');
@@ -105,27 +102,30 @@ export class App implements OnInit {
     }
 
     protected openSubmit() {
-        this.submitOpen.set(true);
+        this.view.set('submit');
+        window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
     protected closeSubmit() {
-        this.submitOpen.set(false);
+        this.view.set('home');
     }
 
     protected openHelp() {
-        this.helpOpen.set(true);
+        this.view.set('help');
+        window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
     protected closeHelp() {
-        this.helpOpen.set(false);
+        this.view.set('home');
     }
 
     protected openShare() {
-        this.shareOpen.set(true);
+        this.view.set('share');
+        window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
     protected closeShare() {
-        this.shareOpen.set(false);
+        this.view.set('home');
     }
 
     protected setShareTab(tab: 'apps' | 'prompts') {

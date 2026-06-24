@@ -1221,11 +1221,18 @@
 </div>
 }
 
-@if (submitOpen()) {
-<div class="modal-backdrop" (click)="closeSubmit()">
-    <div class="modal submit-modal" role="dialog" aria-modal="true" aria-labelledby="submit-title"
-        (click)="$event.stopPropagation()">
-        <button class="modal-close floating" (click)="closeSubmit()" aria-label="Close">✕</button>
+@if (view() === 'submit') {
+<section class="page-section submit-page" [class.with-collapsed-sidebar]="sidebarCollapsed()">
+    <div class="page-back">
+        <button type="button" class="back-btn" (click)="closeSubmit()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Back
+        </button>
+    </div>
+    <div class="page-card">
 
         <form class="submit-form" (ngSubmit)="handleSubmit()">
             <h2 id="submit-title" class="submit-title">Submit an App</h2>
@@ -1316,17 +1323,24 @@
             </button>
         </form>
     </div>
-</div>
+</section>
 }
 
 
-@if (helpOpen()) {
-<div class="modal-backdrop" (click)="closeHelp()">
-    <div class="modal help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title"
-        (click)="$event.stopPropagation()">
+@if (view() === 'help') {
+<section class="page-section help-page" [class.with-collapsed-sidebar]="sidebarCollapsed()">
+    <div class="page-back">
+        <button type="button" class="back-btn" (click)="closeHelp()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Back
+        </button>
+    </div>
+    <div class="page-card">
         <div class="help-head">
             <h2 id="help-title" class="help-title">How to Use DINOH</h2>
-            <button class="modal-close" (click)="closeHelp()" aria-label="Close">✕</button>
         </div>
 
         <div class="help-body">
@@ -1465,19 +1479,26 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 }
-@if (shareOpen()) {
-<div class="modal-backdrop" (click)="closeShare()">
-    <div class="modal share-modal" role="dialog" aria-modal="true" aria-labelledby="share-title"
-        (click)="$event.stopPropagation()">
+@if (view() === 'share') {
+<section class="page-section share-page" [class.with-collapsed-sidebar]="sidebarCollapsed()">
+    <div class="page-back">
+        <button type="button" class="back-btn" (click)="closeShare()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Back
+        </button>
+    </div>
+    <div class="page-card">
         <div class="help-head">
             <div>
                 <h2 id="share-title" class="help-title">How to Share</h2>
                 <p class="share-subtitle">Follow these guides to share your apps and prompts with the Roche community.
                 </p>
             </div>
-            <button class="modal-close" (click)="closeShare()" aria-label="Close">?</button>
         </div>
 
         <div class="share-tabs">
@@ -1642,6 +1663,6 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 }
 }

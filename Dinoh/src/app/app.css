@@ -254,14 +254,14 @@ a, button, [role="button"], label[for], summary { cursor: pointer; }
 .header-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: #fff;
   border: 1px solid rgba(11, 65, 205, 0.3);
   color: #0B41CD;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
@@ -271,9 +271,9 @@ a, button, [role="button"], label[for], summary { cursor: pointer; }
   border-color: rgba(11, 65, 205, 0.5);
   box-shadow: 0 1px 2px rgba(11, 65, 205, 0.08);
 }
-.header-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+.header-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-.submit-plus { font-size: 14px; font-weight: 700; line-height: 1; }
+.submit-plus { font-size: 18px; font-weight: 700; line-height: 1; }
 
 .header-profile {
   display: inline-flex;
@@ -677,6 +677,52 @@ a, button, [role="button"], label[for], summary { cursor: pointer; }
   .hero { padding: 20px; }
   .hero-brand { font-size: 26px; }
   .hero-tiles { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Inline page sections (submit / help / share) — rendered as full pages, not modals */
+.page-section {
+  position: fixed;
+  top: 52px;
+  left: 256px;
+  right: 0;
+  bottom: 0;
+  background: var(--rds-peach-bg);
+  overflow-y: auto;
+  padding: 24px 36px 48px;
+  z-index: 5;
+}
+.page-section.with-collapsed-sidebar { left: 64px; }
+@media (max-width: 720px) {
+  .page-section { left: 0; padding: 16px; }
+}
+.page-back {
+  margin-bottom: 16px;
+}
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(11, 65, 205, 0.3);
+  color: #0B41CD;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.back-btn:hover {
+  background: rgba(11, 65, 205, 0.06);
+  border-color: rgba(11, 65, 205, 0.55);
+}
+.page-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 /* Submit App Modal */
@@ -1099,15 +1145,17 @@ a, button, [role="button"], label[for], summary { cursor: pointer; }
   filter: drop-shadow(0 1px 1px rgba(184, 134, 11, 0.35));
 }
 
-/* Help Modal */
+/* Help / Share inline page styles */
 .help-modal { max-width: 760px; padding: 0; position: relative; display: flex; flex-direction: column; max-height: 90vh; }
 .help-head {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 22px 28px; border-bottom: 1px solid var(--gray-200);
-  position: sticky; top: 0; background: #fff; z-index: 2; border-radius: 16px 16px 0 0;
+  padding: 0 0 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--gray-200);
+  background: transparent;
 }
 .help-title { margin: 0; font-size: 22px; font-weight: 800; color: #0f1e4d; }
-.help-body { padding: 24px 28px 28px; overflow-y: auto; }
+.help-body { padding: 0; }
 .help-intro { color: #475569; line-height: 1.65; margin: 0 0 28px; font-size: 14.5px; }
 
 .help-section { margin-bottom: 28px; }
@@ -1152,20 +1200,8 @@ a, button, [role="button"], label[for], summary { cursor: pointer; }
 
 @media (max-width: 640px) {
   .help-features { grid-template-columns: 1fr; }
-  .help-head { padding: 16px 20px; }
-  .help-body { padding: 18px 20px 22px; }
   .help-title { font-size: 18px; }
 }
-
-/* Help Modal */
-.help-modal { max-width: 760px; padding: 0; position: relative; display: flex; flex-direction: column; max-height: 90vh; }
-.help-head {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 22px 28px; border-bottom: 1px solid var(--gray-200);
-  position: sticky; top: 0; background: #fff; z-index: 2; border-radius: 16px 16px 0 0;
-}
-.help-title { margin: 0; font-size: 22px; font-weight: 800; color: #0f1e4d; }
-.help-body { padding: 24px 28px 28px; overflow-y: auto; }
 .help-intro { color: #475569; line-height: 1.65; margin: 0 0 28px; font-size: 14.5px; }
 
 .help-section { margin-bottom: 28px; }
@@ -1219,9 +1255,10 @@ a, button, [role="button"], label[for], summary { cursor: pointer; }
 .share-modal { max-width: 880px; padding: 0; display: flex; flex-direction: column; max-height: 92vh; }
 .share-subtitle { margin: 4px 0 0; color: #64748b; font-size: 14px; }
 .share-tabs {
-  display: flex; gap: 4px; padding: 0 28px;
+  display: flex; gap: 4px; padding: 0;
   border-bottom: 1px solid var(--gray-200);
-  background: #fff; position: sticky; top: 0; z-index: 1;
+  background: transparent;
+  margin-bottom: 18px;
 }
 .share-tab {
   display: inline-flex; align-items: center; gap: 8px;
